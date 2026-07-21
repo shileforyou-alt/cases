@@ -6,6 +6,7 @@ import { useIntersection } from 'react-use';
 import { CASES, PROOF } from './data';
 import { DNAHelix } from './components/DNAHelix';
 import { FatDNAHelix } from './components/FatDNAHelix';
+import { PremiumDNAHelix } from './components/PremiumDNAHelix';
 import { CaseModal } from './components/CaseModal';
 import { Placeholder } from './components/Placeholder';
 import { cn } from './lib/utils';
@@ -250,8 +251,8 @@ export default function App() {
 
       {/* 6. WHAT ARTISTS SAY */}
       <section className="relative py-24 md:py-40 px-6 md:px-10 lg:px-16 border-t border-white/10 overflow-hidden">
-        {/* DNA Background */}
-        <div className="absolute inset-0 z-0 opacity-[0.15] pointer-events-none flex items-center justify-center">
+        {/* Mobile-only subtle DNA backdrop */}
+        <div className="lg:hidden absolute inset-0 z-0 opacity-[0.18] pointer-events-none flex items-center justify-center">
           <Canvas camera={{ position: [0, 0, 15], fov: 40 }} dpr={[1, 1.5]}>
              <ambientLight intensity={0.5} />
              <pointLight position={[10, 10, 10]} intensity={1} color="#E10600" />
@@ -262,26 +263,48 @@ export default function App() {
           </Canvas>
         </div>
 
-        <div className="relative z-10 max-w-[1400px] mx-auto">
-          <h2 className="font-display font-black text-4xl md:text-6xl uppercase tracking-wide mb-20">
-            What artists say
-          </h2>
+        <div className="relative z-10 max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-16 lg:gap-16 items-start">
+          {/* LEFT — quotes */}
+          <div>
+            <h2 className="font-display font-black text-4xl md:text-6xl uppercase tracking-wide mb-16 md:mb-20">
+              What artists say
+            </h2>
 
-          <div className="space-y-24 md:space-y-32">
-            {[
-              { quote: "Now actually having a format to base my music off of and not be confused on how to format my songs or album - it helps with time management, getting things done faster.", author: "k.o.g_30z" },
-              { quote: "Realized it's a real career - not random posts. Now I know how to present myself and pull the right people to my music.", author: "Eli_the_entity" },
-              { quote: "The DNA helped me focus on a couple of tropes rather than going after 10 of them and wearing myself thin.", author: "Pricetonmusica" }
-            ].map((item, i) => (
-              <div key={i} className="max-w-4xl border-l-2 border-shile-red pl-8 md:pl-12">
-                <p className="font-display font-bold text-3xl md:text-5xl leading-tight uppercase tracking-wide text-white mb-8">
-                  "{item.quote}"
-                </p>
-                <p className="text-[11px] text-[#8A8A8A] uppercase tracking-[0.2em] font-bold">
-                  - {item.author}
-                </p>
-              </div>
-            ))}
+            <div className="space-y-20 md:space-y-28">
+              {[
+                { quote: "Now actually having a format to base my music off of and not be confused on how to format my songs or album - it helps with time management, getting things done faster.", author: "k.o.g_30z" },
+                { quote: "Realized it's a real career - not random posts. Now I know how to present myself and pull the right people to my music.", author: "Eli_the_entity" },
+                { quote: "The DNA helped me focus on a couple of tropes rather than going after 10 of them and wearing myself thin.", author: "Pricetonmusica" }
+              ].map((item, i) => (
+                <div key={i} className="border-l-2 border-shile-red pl-8 md:pl-12">
+                  <p className="font-display font-bold text-3xl md:text-5xl leading-tight uppercase tracking-wide text-white mb-8">
+                    "{item.quote}"
+                  </p>
+                  <p className="text-[11px] text-[#8A8A8A] uppercase tracking-[0.2em] font-bold">
+                    - {item.author}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* RIGHT — large premium 3D helix (sticky on desktop) */}
+          <div className="hidden lg:block sticky top-24 h-[82vh] min-h-[640px] -my-4">
+            {/* soft red glow behind the helix */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_58%_42%,_rgba(225,6,0,0.20),_transparent_62%)] blur-2xl pointer-events-none"></div>
+            <div className="absolute inset-0 grain opacity-40 pointer-events-none mix-blend-overlay"></div>
+            <Canvas
+              camera={{ position: [0, 0, 21], fov: 40 }}
+              dpr={[1, 2]}
+              gl={{ antialias: true, powerPreference: 'high-performance' }}
+            >
+              <ambientLight intensity={0.35} />
+              <directionalLight position={[8, 12, 8]} intensity={1.5} color="#ffffff" />
+              <pointLight position={[-11, -6, 7]} intensity={2.6} color="#E10600" distance={44} />
+              <pointLight position={[11, 9, -6]} intensity={1.3} color="#ff5a3c" distance={44} />
+              <spotLight position={[0, 22, 12]} angle={0.4} penumbra={1} intensity={1.6} color="#ffffff" />
+              <PremiumDNAHelix />
+            </Canvas>
           </div>
         </div>
       </section>
