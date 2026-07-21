@@ -7,14 +7,14 @@ import * as THREE from 'three';
  * Shared lighting rig so the premium helix reads the same
  * (glossy metal + red glow) in every Canvas across the page.
  */
-export function HelixLights() {
+export function HelixLights({ intensity = 1 }: { intensity?: number }) {
   return (
     <>
-      <ambientLight intensity={0.35} />
-      <directionalLight position={[8, 12, 8]} intensity={1.5} color="#ffffff" />
-      <pointLight position={[-11, -6, 7]} intensity={2.6} color="#E10600" distance={44} />
-      <pointLight position={[11, 9, -6]} intensity={1.3} color="#ff5a3c" distance={44} />
-      <spotLight position={[0, 22, 12]} angle={0.4} penumbra={1} intensity={1.6} color="#ffffff" />
+      <ambientLight intensity={0.28 * intensity} />
+      <directionalLight position={[8, 12, 8]} intensity={1.5 * intensity} color="#ffffff" />
+      <pointLight position={[-11, -6, 7]} intensity={2.6 * intensity} color="#E10600" distance={44} />
+      <pointLight position={[11, 9, -6]} intensity={1.3 * intensity} color="#ff5a3c" distance={44} />
+      <spotLight position={[0, 22, 12]} angle={0.4} penumbra={1} intensity={1.6 * intensity} color="#ffffff" />
     </>
   );
 }
@@ -25,7 +25,7 @@ export function HelixLights() {
  * nodes, and a slow, expensive motion (rotation + breathing + float
  * + cursor parallax).
  */
-export function PremiumDNAHelix() {
+export function PremiumDNAHelix({ glow = 1 }: { glow?: number }) {
   const groupRef = useRef<THREE.Group>(null);
 
   const count = 34; // base pairs
@@ -78,7 +78,7 @@ export function PremiumDNAHelix() {
                 <meshStandardMaterial
                   color="#E10600"
                   emissive="#E10600"
-                  emissiveIntensity={0.65}
+                  emissiveIntensity={0.65 * glow}
                   roughness={0.12}
                   metalness={0.55}
                 />
@@ -90,7 +90,7 @@ export function PremiumDNAHelix() {
                 <meshStandardMaterial
                   color="#f5f5f5"
                   emissive="#ff3a24"
-                  emissiveIntensity={0.12}
+                  emissiveIntensity={0.12 * glow}
                   roughness={0.08}
                   metalness={0.95}
                 />

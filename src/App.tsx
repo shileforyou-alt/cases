@@ -17,11 +17,11 @@ export default function App() {
       
       {/* Navigation (Added for Theme Aesthetic) */}
       <nav className="absolute top-0 left-0 w-full p-6 md:p-10 flex justify-between items-center z-50">
-        <div className="text-2xl font-display font-black tracking-wide">shile</div>
-        <div className="hidden md:flex gap-12 text-[10px] uppercase tracking-[0.2em] font-medium text-shile-grey">
-          <span className="text-white border-b border-shile-red pb-1 cursor-pointer">Cases</span>
-          <span className="hover:text-white transition-colors cursor-pointer">About</span>
-          <span className="hover:text-white transition-colors cursor-pointer">DNA</span>
+        <a href="#top" className="text-2xl font-display font-black tracking-wide cursor-pointer">shile</a>
+        <div className="hidden md:flex gap-12 text-[10px] uppercase tracking-[0.2em] font-medium text-shile-grey items-center">
+          <a href="#cases" className="text-white border-b border-shile-red pb-1 hover:text-shile-red transition-colors cursor-pointer">Cases</a>
+          <a href="#about" className="hover:text-white transition-colors cursor-pointer">About</a>
+          <a href="#dna" className="hover:text-white transition-colors cursor-pointer">DNA</a>
           <a href="#apply" className="border border-white/20 px-4 py-2 -mt-2 text-white hover:bg-white hover:text-black transition-all cursor-pointer">Apply</a>
         </div>
       </nav>
@@ -34,7 +34,7 @@ export default function App() {
       </AnimatePresence>
 
       {/* 1. HERO */}
-      <section className="relative min-h-[100svh] flex flex-col justify-center items-start px-6 md:px-10 lg:px-16 pb-12 md:pb-24 pt-40">
+      <section id="top" className="relative min-h-[100svh] flex flex-col justify-center items-start px-6 md:px-10 lg:px-16 pb-12 md:pb-24 pt-40">
         {/* 3D Background */}
         <div className="absolute inset-0 z-0 opacity-40 pointer-events-none md:w-[50%] md:left-auto md:right-0">
           <Canvas
@@ -42,8 +42,8 @@ export default function App() {
             dpr={[1, 1.75]}
             gl={{ antialias: true, powerPreference: "high-performance" }}
           >
-            <HelixLights />
-            <PremiumDNAHelix />
+            <HelixLights intensity={0.5} />
+            <PremiumDNAHelix glow={0.5} />
           </Canvas>
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#E1060011] to-transparent blur-3xl mix-blend-screen"></div>
         </div>
@@ -80,7 +80,7 @@ export default function App() {
       </section>
 
       {/* 2. CASES (CORE) */}
-      <section className="w-full py-20 md:py-32 px-6 md:px-10 lg:px-16 border-t border-white/10">
+      <section id="cases" className="scroll-mt-24 w-full py-20 md:py-32 px-6 md:px-10 lg:px-16 border-t border-white/10">
         <div className="max-w-[1400px] mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-baseline mb-12">
             <h2 className="font-display font-black italic text-4xl md:text-6xl tracking-wide uppercase">
@@ -160,7 +160,7 @@ export default function App() {
       </section>
 
       {/* 4. ABOUT */}
-      <section className="py-24 md:py-40 px-6 md:px-10 lg:px-16 max-w-[1400px] mx-auto border-t border-white/10">
+      <section id="about" className="scroll-mt-24 py-24 md:py-40 px-6 md:px-10 lg:px-16 max-w-[1400px] mx-auto border-t border-white/10">
         <h2 className="font-display font-black text-4xl md:text-6xl uppercase tracking-wide mb-12">
           Who I work with
         </h2>
@@ -180,8 +180,8 @@ export default function App() {
               dpr={[1, 1.75]}
               gl={{ antialias: true, powerPreference: "high-performance" }}
             >
-              <HelixLights />
-              <PremiumDNAHelix />
+              <HelixLights intensity={0.75} />
+              <PremiumDNAHelix glow={0.75} />
             </Canvas>
           </div>
         </div>
@@ -212,7 +212,7 @@ export default function App() {
       </section>
 
       {/* 5. HOW IT WORKS */}
-      <section className="py-24 md:py-40 px-6 md:px-10 lg:px-16 border-t border-white/10 bg-[#020202]">
+      <section id="dna" className="scroll-mt-24 py-24 md:py-40 px-6 md:px-10 lg:px-16 border-t border-white/10 bg-[#020202]">
         <div className="max-w-[1400px] mx-auto">
           <h2 className="font-display font-black text-4xl md:text-6xl uppercase tracking-wide mb-16 md:mb-24">
             How it works
@@ -259,8 +259,8 @@ export default function App() {
             dpr={[1, 1.5]}
             gl={{ antialias: true, powerPreference: 'high-performance' }}
           >
-             <HelixLights />
-             <PremiumDNAHelix />
+             <HelixLights intensity={1} />
+             <PremiumDNAHelix glow={1} />
           </Canvas>
         </div>
 
@@ -299,8 +299,8 @@ export default function App() {
               dpr={[1, 2]}
               gl={{ antialias: true, powerPreference: 'high-performance' }}
             >
-              <HelixLights />
-              <PremiumDNAHelix />
+              <HelixLights intensity={1} />
+              <PremiumDNAHelix glow={1} />
             </Canvas>
           </div>
         </div>

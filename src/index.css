@@ -11,6 +11,10 @@
   --font-body: "General Sans", sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: var(--color-shile-black);
   color: #ffffff;
