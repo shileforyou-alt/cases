@@ -165,8 +165,8 @@ export default function App() {
           Who I work with
         </h2>
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-24 items-center">
-          <div className="space-y-6 text-[#aaa] text-lg leading-relaxed">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-24 items-stretch">
+          <div className="space-y-6 text-[#aaa] text-lg leading-relaxed self-center">
             <p>
               <strong className="text-white font-bold">I produce for and develop independent artists</strong> - the ones who can actually make music but have no system around it. I've put beats behind names like Conway the Machine, 2feetbino, Lil Dee and Dillon Cooper - but the work I care about most is helping an artist figure out who they are, so everything they release finally points in one direction.
             </p>
@@ -174,9 +174,11 @@ export default function App() {
               I don't sell content. I don't promise streams. What I build is clarity. You already have the music. My job is the packaging around it.
             </p>
           </div>
-          <div className="relative aspect-square w-full max-w-md mx-auto opacity-70">
+          <div className="relative w-full h-full min-h-[520px] lg:min-h-[600px] opacity-80">
+            {/* soft red glow behind the full-height helix */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,_rgba(225,6,0,0.16),_transparent_60%)] blur-2xl pointer-events-none"></div>
             <Canvas
-              camera={{ position: [0, 0, 21], fov: 42 }}
+              camera={{ position: [0, 0, 38], fov: 40 }}
               dpr={[1, 1.75]}
               gl={{ antialias: true, powerPreference: "high-performance" }}
             >
