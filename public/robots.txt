@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# ▸ SITE_URL — change if you use a custom domain
+Sitemap: https://shile-cases.vercel.app/sitemap.xml
