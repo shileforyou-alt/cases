@@ -4,9 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import CountUp from 'react-countup';
 import { useIntersection } from 'react-use';
 import { CASES, PROOF } from './data';
-import { DNAHelix } from './components/DNAHelix';
-import { FatDNAHelix } from './components/FatDNAHelix';
-import { PremiumDNAHelix } from './components/PremiumDNAHelix';
+import { PremiumDNAHelix, HelixLights } from './components/PremiumDNAHelix';
 import { CaseModal } from './components/CaseModal';
 import { Placeholder } from './components/Placeholder';
 import { cn } from './lib/utils';
@@ -39,12 +37,13 @@ export default function App() {
       <section className="relative min-h-[100svh] flex flex-col justify-center items-start px-6 md:px-10 lg:px-16 pb-12 md:pb-24 pt-40">
         {/* 3D Background */}
         <div className="absolute inset-0 z-0 opacity-40 pointer-events-none md:w-[50%] md:left-auto md:right-0">
-          <Canvas 
-            camera={{ position: [0, 0, 15], fov: 45 }}
-            dpr={[1, 1.5]}
-            gl={{ antialias: false, powerPreference: "high-performance" }}
+          <Canvas
+            camera={{ position: [0, 0, 21], fov: 42 }}
+            dpr={[1, 1.75]}
+            gl={{ antialias: true, powerPreference: "high-performance" }}
           >
-            <DNAHelix />
+            <HelixLights />
+            <PremiumDNAHelix />
           </Canvas>
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#E1060011] to-transparent blur-3xl mix-blend-screen"></div>
         </div>
@@ -176,11 +175,13 @@ export default function App() {
             </p>
           </div>
           <div className="relative aspect-square w-full max-w-md mx-auto opacity-70">
-            <Canvas camera={{ position: [0, 0, 10], fov: 40 }} dpr={[1, 1.5]}>
-              <ambientLight intensity={0.5} />
-              <pointLight position={[10, 10, 10]} intensity={1} color="#E10600" />
-              <pointLight position={[-10, -10, -10]} intensity={0.5} color="#ffffff" />
-              <DNAHelix />
+            <Canvas
+              camera={{ position: [0, 0, 21], fov: 42 }}
+              dpr={[1, 1.75]}
+              gl={{ antialias: true, powerPreference: "high-performance" }}
+            >
+              <HelixLights />
+              <PremiumDNAHelix />
             </Canvas>
           </div>
         </div>
@@ -253,13 +254,13 @@ export default function App() {
       <section className="relative py-24 md:py-40 px-6 md:px-10 lg:px-16 border-t border-white/10 overflow-hidden">
         {/* Mobile-only subtle DNA backdrop */}
         <div className="lg:hidden absolute inset-0 z-0 opacity-[0.18] pointer-events-none flex items-center justify-center">
-          <Canvas camera={{ position: [0, 0, 15], fov: 40 }} dpr={[1, 1.5]}>
-             <ambientLight intensity={0.5} />
-             <pointLight position={[10, 10, 10]} intensity={1} color="#E10600" />
-             <pointLight position={[-10, -10, -10]} intensity={0.5} color="#ffffff" />
-             <group scale={2.5}>
-               <FatDNAHelix />
-             </group>
+          <Canvas
+            camera={{ position: [0, 0, 22], fov: 44 }}
+            dpr={[1, 1.5]}
+            gl={{ antialias: true, powerPreference: 'high-performance' }}
+          >
+             <HelixLights />
+             <PremiumDNAHelix />
           </Canvas>
         </div>
 
@@ -298,11 +299,7 @@ export default function App() {
               dpr={[1, 2]}
               gl={{ antialias: true, powerPreference: 'high-performance' }}
             >
-              <ambientLight intensity={0.35} />
-              <directionalLight position={[8, 12, 8]} intensity={1.5} color="#ffffff" />
-              <pointLight position={[-11, -6, 7]} intensity={2.6} color="#E10600" distance={44} />
-              <pointLight position={[11, 9, -6]} intensity={1.3} color="#ff5a3c" distance={44} />
-              <spotLight position={[0, 22, 12]} angle={0.4} penumbra={1} intensity={1.6} color="#ffffff" />
+              <HelixLights />
               <PremiumDNAHelix />
             </Canvas>
           </div>

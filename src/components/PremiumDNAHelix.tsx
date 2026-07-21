@@ -4,6 +4,22 @@ import { Float } from '@react-three/drei';
 import * as THREE from 'three';
 
 /**
+ * Shared lighting rig so the premium helix reads the same
+ * (glossy metal + red glow) in every Canvas across the page.
+ */
+export function HelixLights() {
+  return (
+    <>
+      <ambientLight intensity={0.35} />
+      <directionalLight position={[8, 12, 8]} intensity={1.5} color="#ffffff" />
+      <pointLight position={[-11, -6, 7]} intensity={2.6} color="#E10600" distance={44} />
+      <pointLight position={[11, 9, -6]} intensity={1.3} color="#ff5a3c" distance={44} />
+      <spotLight position={[0, 22, 12]} angle={0.4} penumbra={1} intensity={1.6} color="#ffffff" />
+    </>
+  );
+}
+
+/**
  * A large, premium DNA double-helix used as the hero visual in
  * the "What artists say" section. Glossy metal rungs, glowing red
  * nodes, and a slow, expensive motion (rotation + breathing + float
