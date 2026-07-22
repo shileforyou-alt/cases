@@ -323,37 +323,7 @@ export default function App() {
           </div>
 
           {/* Form */}
-          <form 
-            onSubmit={(e) => { e.preventDefault(); alert('Form connected via Formspree/mailto later.'); }}
-            className="space-y-8"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div>
-                <label className="block text-shile-grey text-sm tracking-widest uppercase mb-2">Name</label>
-                <input type="text" required className="w-full bg-transparent border-b border-[#333] py-3 text-white focus:outline-none focus:border-shile-red transition-colors text-lg" />
-              </div>
-              <div>
-                <label className="block text-shile-grey text-sm tracking-widest uppercase mb-2">Instagram / @handle</label>
-                <input type="text" required className="w-full bg-transparent border-b border-[#333] py-3 text-white focus:outline-none focus:border-shile-red transition-colors text-lg" />
-              </div>
-            </div>
-            
-            <div>
-              <label className="block text-shile-grey text-sm tracking-widest uppercase mb-2">Spotify or Music Link</label>
-              <input type="url" required className="w-full bg-transparent border-b border-[#333] py-3 text-white focus:outline-none focus:border-shile-red transition-colors text-lg" />
-            </div>
-
-            <div>
-              <label className="block text-shile-grey text-sm tracking-widest uppercase mb-2">What's your biggest blocker right now?</label>
-              <input type="text" required className="w-full bg-transparent border-b border-[#333] py-3 text-white focus:outline-none focus:border-shile-red transition-colors text-lg" />
-            </div>
-
-            <div className="pt-8 flex flex-col sm:flex-row items-center gap-6">
-              <button type="submit" className="w-full sm:w-auto bg-shile-red text-white font-semibold text-sm px-12 py-5 uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-colors cursor-pointer">
-                Apply
-              </button>
-            </div>
-          </form>
+          <ApplyForm />
 
         </div>
       </section>
@@ -373,6 +343,95 @@ export default function App() {
         </div>
       </footer>
     </div>
+  );
+}
+
+// Apply Form — submits to /api/notify (Telegram lead notification,
+// same service as the other shile site)
+function ApplyForm() {
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [form, setForm] = useState({ name: '', handle: '', link: '', blocker: '' });
+
+  const field = (key: keyof typeof form) => ({
+    value: form[key],
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+      setForm((f) => ({ ...f, [key]: e.target.value })),
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (status === 'sending') return;
+    setStatus('sending');
+    try {
+      const res = await fetch('/api/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.success) {
+        setStatus('success');
+        setForm({ name: '', handle: '', link: '', blocker: '' });
+      } else {
+        setStatus('error');
+      }
+    } catch {
+      setStatus('error');
+    }
+  };
+
+  if (status === 'success') {
+    return (
+      <div className="border border-white/10 bg-[#050505] p-10 md:p-14 flex flex-col justify-center">
+        <p className="text-shile-red text-[10px] uppercase tracking-widest font-bold mb-6">Application sent</p>
+        <p className="font-display font-bold text-3xl md:text-4xl leading-tight uppercase tracking-wide text-white mb-6">
+          Got it. We'll listen and get back to you.
+        </p>
+        <p className="text-shile-grey text-base leading-relaxed">
+          Keep making music - we'll reach out on Instagram.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <label className="block text-shile-grey text-sm tracking-widest uppercase mb-2">Name</label>
+          <input type="text" required {...field('name')} className="w-full bg-transparent border-b border-[#333] py-3 text-white focus:outline-none focus:border-shile-red transition-colors text-lg" />
+        </div>
+        <div>
+          <label className="block text-shile-grey text-sm tracking-widest uppercase mb-2">Instagram / @handle</label>
+          <input type="text" required {...field('handle')} className="w-full bg-transparent border-b border-[#333] py-3 text-white focus:outline-none focus:border-shile-red transition-colors text-lg" />
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-shile-grey text-sm tracking-widest uppercase mb-2">Spotify or Music Link</label>
+        <input type="url" required {...field('link')} className="w-full bg-transparent border-b border-[#333] py-3 text-white focus:outline-none focus:border-shile-red transition-colors text-lg" />
+      </div>
+
+      <div>
+        <label className="block text-shile-grey text-sm tracking-widest uppercase mb-2">What's your biggest blocker right now?</label>
+        <input type="text" required {...field('blocker')} className="w-full bg-transparent border-b border-[#333] py-3 text-white focus:outline-none focus:border-shile-red transition-colors text-lg" />
+      </div>
+
+      <div className="pt-8 flex flex-col sm:flex-row items-center gap-6">
+        <button
+          type="submit"
+          disabled={status === 'sending'}
+          className="w-full sm:w-auto bg-shile-red text-white font-semibold text-sm px-12 py-5 uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-wait"
+        >
+          {status === 'sending' ? 'Sending…' : 'Apply'}
+        </button>
+        {status === 'error' && (
+          <p className="text-shile-red text-xs uppercase tracking-widest font-bold">
+            Something went wrong - try again or DM @shile_prod
+          </p>
+        )}
+      </div>
+    </form>
   );
 }
 
