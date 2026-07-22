@@ -202,9 +202,9 @@ export default function App() {
           
           <div className="bg-[#050505] border border-white/5 p-8 relative overflow-hidden group hover:border-white/20 transition-colors flex flex-col">
             <div className="w-full max-w-[200px] aspect-square mb-8 relative bg-[#111] border border-white/5 p-2">
-              <img src="https://www.dropbox.com/scl/fi/zkn4gtda2iwpezxco3md6/2026-07-22-3.10.28-AM.png?rlkey=immqjyw52tg2qode40w52h6x8&st=y1mp29o2&raw=1" alt="Unavenlive (Misha)" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+              <img src="https://www.dropbox.com/scl/fi/zkn4gtda2iwpezxco3md6/2026-07-22-3.10.28-AM.png?rlkey=immqjyw52tg2qode40w52h6x8&st=y1mp29o2&raw=1" alt="Unavenlive (Michael)" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
             </div>
-            <h3 className="font-display font-black text-3xl uppercase tracking-wide mb-1 text-white mt-auto">Unavenlive (Misha)</h3>
+            <h3 className="font-display font-black text-3xl uppercase tracking-wide mb-1 text-white mt-auto">Unavenlive (Michael)</h3>
             <p className="text-[#E10600] text-[10px] uppercase tracking-widest font-bold mb-4">Creative Producer & Strategist</p>
             <p className="text-[#8A8A8A] text-sm leading-relaxed max-w-sm">
               2.5 years in creative production · brands, media, promo strategy. Goes deep on every detail of an artist, so the offer fits only them.
@@ -332,13 +332,13 @@ export default function App() {
       <footer className="border-t border-white/10 py-10 px-6 md:px-10 lg:px-16 bg-black">
         <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex justify-between items-center text-[10px] uppercase tracking-[0.3em] font-semibold text-[#555] w-full">
-            <div>© 2026 Shile Studio</div>
+            <div>@shileforyou</div>
             <div className="hidden md:flex gap-8">
               <span className="text-shile-red">Angie / 250k+</span>
               <span>Things I've Seen / 104k+</span>
               <span>Hard To Kill / 650k+</span>
             </div>
-            <div>@shile_prod</div>
+            <div>shile vision</div>
           </div>
         </div>
       </footer>
@@ -362,14 +362,32 @@ function ApplyForm() {
     e.preventDefault();
     if (status === 'sending') return;
     setStatus('sending');
+
+    // Fire-and-forget Telegram notification (works once BOT_TOKEN/CHAT_ID
+    // env vars are set in Vercel); email below is the primary channel.
+    fetch('/api/notify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(form),
+    }).catch(() => {});
+
     try {
-      const res = await fetch('/api/notify', {
+      // Email notification via FormSubmit
+      const res = await fetch('https://formsubmit.co/ajax/shileforyou@gmail.com', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          _subject: 'New artist application — shile.vision',
+          _template: 'table',
+          _captcha: 'false',
+          Name: form.name,
+          Instagram: form.handle,
+          'Music link': form.link,
+          'Biggest blocker': form.blocker,
+        }),
       });
-      const data = await res.json().catch(() => ({}));
-      if (res.ok && data.success) {
+      const data = await res.json().catch(() => ({} as any));
+      if (res.ok && (data.success === 'true' || data.success === true)) {
         setStatus('success');
         setForm({ name: '', handle: '', link: '', blocker: '' });
       } else {
@@ -427,7 +445,7 @@ function ApplyForm() {
         </button>
         {status === 'error' && (
           <p className="text-shile-red text-xs uppercase tracking-widest font-bold">
-            Something went wrong - try again or DM @shile_prod
+            Something went wrong - try again or DM @shileforyou
           </p>
         )}
       </div>
