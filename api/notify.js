@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ success: false, error: 'Method Not Allowed' });
   }
 
-  const { name, handle, link, blocker } = req.body || {};
+  const { name, handle, link, blocker, referredBy } = req.body || {};
 
   if (!name || !handle || !link || !blocker) {
     return res.status(400).json({ success: false, error: 'All fields are required' });
@@ -23,7 +23,8 @@ export default async function handler(req, res) {
   }
 
   const timestamp = new Date().toLocaleString('en-GB', { timeZone: 'UTC' });
-  const message = `🎵 <b>NEW ARTIST LEAD! (shile.vision)</b>\n━━━━━━━━━━━━━━\n👤 <b>Name:</b> ${name}\n📸 <b>Instagram:</b> ${handle}\n🎧 <b>Music:</b> ${link}\n🚧 <b>Blocker:</b> ${blocker}\n━━━━━━━━━━━━━━\n🕐 ${timestamp} UTC`;
+  const referral = referredBy && String(referredBy).trim() ? referredBy : '—';
+  const message = `🎵 <b>NEW ARTIST LEAD! (shile.vision)</b>\n━━━━━━━━━━━━━━\n👤 <b>Name:</b> ${name}\n📸 <b>Instagram:</b> ${handle}\n🎧 <b>Music:</b> ${link}\n🚧 <b>Blocker:</b> ${blocker}\n🔗 <b>Referred by:</b> ${referral}\n━━━━━━━━━━━━━━\n🕐 ${timestamp} UTC`;
 
   try {
     const telegramRes = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {

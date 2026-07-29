@@ -350,7 +350,7 @@ export default function App() {
 // same service as the other shile site)
 function ApplyForm() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
-  const [form, setForm] = useState({ name: '', handle: '', link: '', blocker: '' });
+  const [form, setForm] = useState({ name: '', handle: '', link: '', blocker: '', referredBy: '' });
 
   const field = (key: keyof typeof form) => ({
     value: form[key],
@@ -358,17 +358,38 @@ function ApplyForm() {
       setForm((f) => ({ ...f, [key]: e.target.value })),
   });
 
+  // Normalize an optional "referred by" IG handle:
+  // trim, strip a full instagram.com/xxx URL down to xxx, and ensure a
+  // leading "@". Empty stays empty.
+  const normalizeReferral = (raw: string) => {
+    let v = raw.trim();
+    if (!v) return '';
+    v = v.replace(/^https?:\/\/(www\.)?instagram\.com\//i, '');
+    v = v.replace(/[/?#].*$/, ''); // drop trailing path/query after the handle
+    v = v.replace(/^@+/, '');       // collapse existing @
+    return v ? '@' + v : '';
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (status === 'sending') return;
     setStatus('sending');
+
+    const referredBy = normalizeReferral(form.referredBy);
+    const payload = {
+      name: form.name,
+      handle: form.handle,
+      link: form.link,
+      blocker: form.blocker,
+      referredBy,
+    };
 
     // Fire-and-forget Telegram notification (works once BOT_TOKEN/CHAT_ID
     // env vars are set in Vercel); email below is the primary channel.
     fetch('/api/notify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
+      body: JSON.stringify(payload),
     }).catch(() => {});
 
     try {
@@ -384,12 +405,13 @@ function ApplyForm() {
           Instagram: form.handle,
           'Music link': form.link,
           'Biggest blocker': form.blocker,
+          'Referred by': referredBy || '—',
         }),
       });
       const data = await res.json().catch(() => ({} as any));
       if (res.ok && (data.success === 'true' || data.success === true)) {
         setStatus('success');
-        setForm({ name: '', handle: '', link: '', blocker: '' });
+        setForm({ name: '', handle: '', link: '', blocker: '', referredBy: '' });
       } else {
         setStatus('error');
       }
@@ -405,9 +427,17 @@ function ApplyForm() {
         <p className="font-display font-bold text-3xl md:text-4xl leading-tight uppercase tracking-wide text-white mb-6">
           Got it. We'll listen and get back to you.
         </p>
-        <p className="text-shile-grey text-base leading-relaxed">
-          Keep making music - we'll reach out on Instagram.
+        <p className="text-shile-grey text-base leading-relaxed mb-8">
+          Keep making music - we'll reach out on Instagram. Meanwhile, follow me on Instagram:
         </p>
+        <a
+          href="https://www.instagram.com/shileforyou/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block self-start border border-white/20 px-6 py-3 text-white text-xs uppercase tracking-[0.2em] font-semibold hover:bg-white hover:text-black transition-colors"
+        >
+          @shileforyou
+        </a>
       </div>
     );
   }
@@ -428,11 +458,18 @@ function ApplyForm() {
       <div>
         <label className="block text-shile-grey text-sm tracking-widest uppercase mb-2">Spotify or Music Link</label>
         <input type="url" required {...field('link')} className="w-full bg-transparent border-b border-[#333] py-3 text-white focus:outline-none focus:border-shile-red transition-colors text-lg" />
+        <p className="text-[#5f5f5f] text-[13px] leading-relaxed mt-2">Just a link to your Spotify, Apple Music or YouTube.</p>
       </div>
 
       <div>
         <label className="block text-shile-grey text-sm tracking-widest uppercase mb-2">What's your biggest blocker right now?</label>
         <input type="text" required {...field('blocker')} className="w-full bg-transparent border-b border-[#333] py-3 text-white focus:outline-none focus:border-shile-red transition-colors text-lg" />
+      </div>
+
+      <div>
+        <label className="block text-shile-grey text-sm tracking-widest uppercase mb-2">Referred by (optional)</label>
+        <input type="text" placeholder="@username" {...field('referredBy')} className="w-full bg-transparent border-b border-[#333] py-3 text-white placeholder:text-[#444] focus:outline-none focus:border-shile-red transition-colors text-lg" />
+        <p className="text-[#5f5f5f] text-[13px] leading-relaxed mt-2">If an artist sent you, drop their IG with @ - you'll get a free video breakdown of your page before we talk.</p>
       </div>
 
       <div className="pt-8 flex flex-col sm:flex-row items-center gap-6">
