@@ -469,7 +469,6 @@ function ApplyForm() {
       <div>
         <label className="block text-shile-grey text-sm tracking-widest uppercase mb-2">Referred by (optional)</label>
         <input type="text" placeholder="@username" {...field('referredBy')} className="w-full bg-transparent border-b border-[#333] py-3 text-white placeholder:text-[#444] focus:outline-none focus:border-shile-red transition-colors text-lg" />
-        <p className="text-[#5f5f5f] text-[13px] leading-relaxed mt-2">If an artist sent you, drop their IG with @ - you'll get a free video breakdown of your page before we talk.</p>
       </div>
 
       <div className="pt-8 flex flex-col sm:flex-row items-center gap-6">
