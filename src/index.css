@@ -50,3 +50,33 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-shile-red);
 }
+/* ===== "Sound familiar?" drifting word cloud =====
+   Rows scroll horizontally; the mask fades them out at every edge so the
+   bright center rows read first and the rest dissolve into the black. */
+.cloud {
+  -webkit-mask-image:
+    linear-gradient(to bottom, transparent, #000 22%, #000 78%, transparent),
+    linear-gradient(to right, transparent, #000 14%, #000 86%, transparent);
+  mask-image:
+    linear-gradient(to bottom, transparent, #000 22%, #000 78%, transparent),
+    linear-gradient(to right, transparent, #000 14%, #000 86%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+.cloud-row {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation-name: cloud-drift;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes cloud-drift {
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cloud-row { animation: none; }
+}

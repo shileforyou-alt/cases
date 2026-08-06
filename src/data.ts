@@ -1,6 +1,8 @@
 export const CASES = [
   {
     id: "eli",
+    before: "Finished tape, good sound, no idea what to do with it. Posting felt like becoming a content creator instead of an artist.",
+    after: "Remembered he's an artist. Knows what to show and in what order leading into the release.",
     name: "Eli",
     handle: "elitheentity",
     genre: "boom bap",
@@ -32,6 +34,8 @@ export const CASES = [
   },
   {
     id: "princeton",
+    before: "Money in, nothing moving. Chasing ten directions at once and getting thin on all of them.",
+    after: "Focused on the few that are actually him. The money question stopped being scary.",
     name: "Princeton",
     handle: "Pricetonmusica",
     genre: "melodic trap / R&B",
@@ -61,6 +65,8 @@ export const CASES = [
   },
   {
     id: "kendal",
+    before: "Had the songs. No framework to format them or present them. So the project just sat there.",
+    after: "A format to build every release on. The 4-track EP got finished.",
     name: "Kendal",
     handle: "k.o.g_30z",
     genre: "boom bap",
@@ -112,4 +118,17 @@ export const PROOF = [
     streams: 300000,
     coverArt: "https://www.dropbox.com/scl/fi/q2nankk7ithlvvhzlspd9/2026-07-22-3.08.04-AM.png?rlkey=omkra31bhbnj8dof6kzoc4f7v&st=316ezc9k&raw=1"
   }
+];
+
+// Phrases artists actually used - drifting word cloud in the "sound familiar?" section.
+export const TRIED = [
+  ["playlist submissions", "IG ads", "$50 promo services", "posting every day", "buying followers", "SubmitHub"],
+  ["\"just make better music\"", "blog submissions", "TikTok trends", "cold DMs to labels", "pre-save campaigns", "new cover art"],
+  ["no system", "no discipline", "burned out on my own release", "putting off outreach", "too many ideas at once"],
+  ["collabs for reach", "dropping every month", "hashtag research", "boosting a post", "Distrokid promo", "paying a \"manager\""],
+  ["I sound like three different artists", "I don't know who this is for", "my page looks like a hobby", "nobody's listening"],
+  ["I'll post tomorrow", "I'll start when the project's done", "deleted the post", "started a new account", "waiting to feel ready"],
+  ["three days of streams, then silence", "money in, nothing moves", "the next one will hit", "I'm good and it doesn't matter"],
+  ["posting feels fake", "scared to look thirsty", "comparing myself to everyone", "lost the reason I started"],
+  ["recorded it, then froze", "what do I even post", "does any of this connect", "\"I'll figure it out after the drop\""]
 ];
