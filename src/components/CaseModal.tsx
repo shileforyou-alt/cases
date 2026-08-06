@@ -85,11 +85,13 @@ export function CaseModal({ data, onClose }: CaseProps) {
               </p>
             </div>
 
-            {/* Old Feed Image */}
+            {/* Old Feed Image — a phone screenshot: show it in full so no
+                text gets cropped (natural height, constrained to a readable
+                phone-width column, centered). */}
             {data.oldFeedAspect && (
               data.oldFeedImage ? (
-                <div className="w-full relative bg-[#111] border border-white/5 p-2 md:p-4 mb-16">
-                  <img src={data.oldFeedImage} alt="Old Feed / Point A" className="w-full object-cover rounded-sm grayscale hover:grayscale-0 transition-all duration-700" style={{ aspectRatio: data.oldFeedAspect.replace('/', ' / ') }} />
+                <div className="w-full max-w-sm mx-auto relative bg-[#111] border border-white/5 p-2 md:p-4 mb-16">
+                  <img src={data.oldFeedImage} alt="Feedback from the artist" className="w-full h-auto rounded-sm" />
                 </div>
               ) : (
                 <Placeholder label={`Old Feed / Point A`} aspectRatio={data.oldFeedAspect} className="mb-16" />
@@ -113,7 +115,7 @@ export function CaseModal({ data, onClose }: CaseProps) {
             <div className="my-16">
               {data.dnaImage ? (
                 <div className="max-w-xl relative bg-[#111] border border-white/5 p-2 md:p-4">
-                  <img src={data.dnaImage} alt="Artist DNA Preview" className="w-full object-cover rounded-sm grayscale hover:grayscale-0 transition-all duration-700" style={{ aspectRatio: data.dnaAspect.replace('/', ' / ') }} />
+                  <img src={data.dnaImage} alt="Artist DNA Preview" className="w-full h-auto rounded-sm" />
                 </div>
               ) : (
                 <Placeholder label={`Artist DNA Preview`} aspectRatio={data.dnaAspect} className="max-w-xl" />
