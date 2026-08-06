@@ -117,6 +117,17 @@ export default function App() {
                       </div>
                     )}
                     <div className="absolute inset-0 bg-shile-red opacity-0 group-hover:opacity-10 transition-opacity z-0 pointer-events-none"></div>
+
+                    {/* Click affordance badge */}
+                    <div className="absolute top-4 right-4 md:top-6 md:right-6 z-10 flex items-center gap-1.5 bg-black/60 backdrop-blur-sm border border-white/15 px-3 py-1.5 text-[9px] uppercase tracking-[0.18em] font-bold text-white/90 group-hover:bg-shile-red group-hover:border-shile-red transition-colors pointer-events-none">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <polyline points="9 21 3 21 3 15"></polyline>
+                        <line x1="21" y1="3" x2="14" y2="10"></line>
+                        <line x1="3" y1="21" x2="10" y2="14"></line>
+                      </svg>
+                      Full story
+                    </div>
                   </div>
                   
                   <div className="flex flex-col flex-grow p-6 md:p-8 bg-[#0a0a0a]">
@@ -131,6 +142,14 @@ export default function App() {
                     <motion.h3 layoutId={`case-${item.id}-hook`} className="font-display text-xl md:text-2xl font-bold leading-tight uppercase tracking-wide text-white mt-auto">
                       "{item.hook}"
                     </motion.h3>
+
+                    <span className="mt-6 inline-flex items-center gap-2 text-[10px] text-shile-red uppercase tracking-[0.2em] font-bold group-hover:gap-3 transition-all">
+                      Click to read the full story
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                      </svg>
+                    </span>
                   </div>
                 </div>
               </motion.div>
