@@ -18,6 +18,7 @@ const Loop = () => (
     loop
     playsInline
     aria-hidden="true"
+    style={{ aspectRatio: '16 / 9' }}
   />
 );
 
@@ -164,7 +165,7 @@ export function Production({ go }: Nav) {
             </div>
           </div>
           <figure className="figure">
-            <video src="/media/faktura.mp4" poster="/media/faktura-poster.jpg" autoPlay muted loop playsInline aria-hidden="true" />
+            <video src="/media/faktura.mp4" poster="/media/faktura-poster.jpg" autoPlay muted loop playsInline aria-hidden="true" style={{ aspectRatio: '9 / 16' }} />
             <figcaption>In the room, mid-session.</figcaption>
           </figure>
         </div>
@@ -226,7 +227,7 @@ export function Production({ go }: Nav) {
               </p>
             </div>
             <figure className="figure">
-              <video src="/media/backg.mp4" poster="/media/backg-poster.jpg" autoPlay muted loop playsInline aria-hidden="true" />
+              <video src="/media/backg.mp4" poster="/media/backg-poster.jpg" autoPlay muted loop playsInline aria-hidden="true" style={{ aspectRatio: '9 / 16' }} />
               <figcaption>Session, 2 a.m.</figcaption>
             </figure>
           </div>
