@@ -1,19 +1,81 @@
+// Releases - titles, artists and covers as they appear on Spotify.
+export const TRACKS = [
+  {
+    t: "EXPENSES", a: "Http//:riri", cover: "/media/covers/sp_expenses.jpg",
+    n: [["150K", "streams"]], url: "https://open.spotify.com/track/5Pgke4Mp6AusEyLHfX9jKh"
+  },
+  {
+    t: "SUIC!DAL", a: "Http//:riri", cover: "/media/covers/sp_suicidal.jpg",
+    n: [["50K", "streams"]], url: "https://open.spotify.com/track/5itEQ0dgLxitsLZ6gHIf0N"
+  },
+  {
+    t: "Angie", a: "OnetakeCarter, Akeem Ali", cover: "/media/covers/sp_angie.jpg",
+    n: [["250K", "reels"], ["50K", "streams"]], url: "https://open.spotify.com/track/4dSuc5q2zMcHAFiw1aGGCT"
+  },
+  {
+    t: "Things I've Seen", a: "Maximum", cover: "/media/covers/sp_things.jpg",
+    n: [["104K", "video"], ["30K", "streams"]], url: "https://open.spotify.com/track/3xmkPaN29xPdhBqDVTP2DU"
+  },
+  {
+    t: "Bantics", a: "Http//:riri", cover: "/media/covers/sp_bantics.jpg",
+    n: [["50K", "streams"]], url: "https://open.spotify.com/track/2WRsMijgmI1pcsd9xuDfg6"
+  },
+  {
+    t: "Real Rap Raw", a: "Cargo Qell, Dillon Cooper, Danny James (Lil Dee)", cover: "/media/covers/sp_realrapraw.jpg",
+    n: [["50K", "streams"]], url: "https://open.spotify.com/track/17Id5CBJvpd4jr2coluKAo"
+  },
+  {
+    t: "Jesus on My Neck", a: "Kryptic Shaman, Conway the Machine", cover: "/media/covers/sp_jesus.jpg",
+    n: [], url: "https://open.spotify.com/track/7xlx9oLxoIYCjVMbIx9GWi"
+  }
+];
+
+// Mix & master - the same seconds of the same take, before and after.
+export const MIXES = [
+  { t: "Example 01", g: "hip-hop", a: "/media/audio/mix/3s-before.m4a",   b: "/media/audio/mix/3s-after.m4a" },
+  { t: "Example 02", g: "trap",    a: "/media/audio/mix/plug-before.m4a", b: "/media/audio/mix/plug-after.m4a" },
+  { t: "Example 03", g: "rap",     a: "/media/audio/mix/hm-before.m4a",   b: "/media/audio/mix/hm-after.m4a" },
+  { t: "Example 04", g: "melodic", a: "/media/audio/mix/p-before.m4a",    b: "/media/audio/mix/p-after.m4a" }
+];
+
+// Custom production - the artist's ask, then what came out of it.
+export const CUSTOM = [
+  {
+    t: "Blazy Eye", g: "built for the voice",
+    ask: "The beat he'd recorded on had already been sold on YouTube - but he loved the track so much he wanted something like it anyway. So he came to me: redo it, keep the idea, but make it mine and make it his. Not a copy - the same idea taken somewhere new.",
+    did: "The version he liked was hard: kicks slamming, bass slamming, no room. His voice needed framing, not competition. So I extracted his vocal and started over from a vocal sample - a melody I played in myself on synths - then worked that sample into something softer, smoother, catchier. The drums came last, built to give him space and still knock.",
+    a: "/media/audio/custom/blazy-idea.m4a", b: "/media/audio/custom/blazy-result.m4a"
+  },
+  {
+    t: "Abantu", g: "sample flip",
+    ask: "He'd fallen for a sample and the idea inside it. He wanted a track built out of that - simple, clear, with soul, something that feels epic and doesn't sound like anybody else's production. Style you can hear, and a piano part kept as plain as possible.",
+    did: "He gave me pieces: the sample, the bongos, an idea for a bassline. I found the loop inside his sample and built around it so it wouldn't land as just another trap drum pattern - something fresher and catchier than that. Then I put his parts together, added a few ideas of my own that fit his voice, and it became one picture instead of a folder of parts.",
+    a: "/media/audio/custom/abantu-idea.m4a", b: "/media/audio/custom/abantu-result.m4a"
+  },
+  {
+    t: "Push", g: "built around the vocal",
+    ask: "He had a reference he was in love with. He wanted something in that world - but not a copy of it. Built around him instead: his voice, his tempo, his key. As original as possible, his words.",
+    did: "I listened to the reference and heard why it worked: it's simple, it knocks, and it leaves the vocal room to do the work. So I didn't load it up. I kept the core bass idea and the core melody and rebuilt both around his voice, remade the bass and reworked the drums so they move together instead of sounding separate. He said the bass was still too open - I made it simpler again, until the groove was the thing you feel. We went through six drafts over two or three weeks. He wanted it perfect. He got it.",
+    a: "/media/audio/custom/bronx-idea.m4a", b: "/media/audio/custom/bronx-result.m4a"
+  }
+];
+
 export const CASES = [
   {
     id: "eli",
-    before: "Finished tape, good sound, no idea what to do with it. Posting felt like becoming a content creator instead of an artist.",
-    after: "Remembered he's an artist. Knows what to show and in what order leading into the release.",
     name: "Eli",
     handle: "elitheentity",
     genre: "boom bap",
     hook: "I remembered I'm an artist again.",
+    before: "Finished tape, good sound, no idea what to do with it. Posting felt like becoming a content creator instead of an artist.",
+    after: "Remembered he's an artist. Knows what to show and in what order leading into the release.",
     image: "/cases/eli.jpg",
     coverAspect: "1/1",
     heroAspect: "1/1",
     oldFeedAspect: "4/3",
-    oldFeedImage: "https://www.dropbox.com/scl/fi/sab1dz7o4mgh1uy8m6a4q/109B57D9-73AE-4421-9E1E-EB34EFAC0D46_1_105_c.jpeg?rlkey=47cunskjbazw8yjdzzano3y1q&st=xo9fei3u&raw=1",
+    oldFeedImage: "/media/dm-eli-2.jpg",
     dnaAspect: "3/4",
-    dnaImage: "https://www.dropbox.com/scl/fi/eds0ls46xlpng8vfcg0f3/.png?rlkey=s0bj5r4hudpp2uz5adzj2gt5n&st=58ndpctt&raw=1",
+    dnaImage: "/media/dm-eli.jpg",
     story: {
       soundFamiliar: "You know how to make the music. But the second a track's done, you freeze - push it? Ads? Playlists? You post the cover to your story, blast it to your followers, and nothing really moves. And every time you sit down to make \"content,\" it feels like you're turning into a content creator instead of an artist - so part of you resists it.",
       whereTheyWere: "Boom bap, ~900 followers, deep into preparing his first real album - a personal one. The talent was there. But it was foggy: no idea what to do with a finished track, posting felt like a betrayal of being an artist, building something big off pure instinct with no map for how to present it or who it was even for.",
@@ -34,17 +96,17 @@ export const CASES = [
   },
   {
     id: "princeton",
-    before: "Money in, nothing moving. Chasing ten directions at once and getting thin on all of them.",
-    after: "Focused on the few that are actually him. The money question stopped being scary.",
     name: "Princeton",
     handle: "Pricetonmusica",
     genre: "melodic trap / R&B",
     hook: "He almost passed because of budget. Now he's glad he didn't.",
+    before: "Money in, nothing moving. Chasing ten directions at once and getting thin on all of them.",
+    after: "Focused on the few that are actually him. The money question stopped being scary.",
     image: "/cases/princeton.jpg",
     coverAspect: "1/1",
     heroAspect: "1/1",
     dnaAspect: "3/4",
-    dnaImage: "https://www.dropbox.com/scl/fi/1rrjdl83obq921i6sx0jz/2026-07-22-3.05.45-AM.png?rlkey=hq1ghxvsr6aectwnjxayivtno&st=6bfoo1py&raw=1",
+    dnaImage: "/media/dm-princeton.jpg",
     story: {
       soundFamiliar: "Making music costs money - beats, mixing, mastering, maybe a little ad spend. You put it all in, drop the track, and watch the numbers barely move. Do that a few times and it starts to feel like you're pouring money into a void. So when someone says \"you need positioning,\" part of you thinks: with what money?",
       whereTheyWere: "Melodic trap and R&B, ~2,200 followers. The talent is real - the kind of voice that fills a beat. But he was stuck in the loop: spending on his music, seeing minimal return, feeling like it was money into a void. His hesitation was honest, and it was about budget.",
@@ -65,17 +127,17 @@ export const CASES = [
   },
   {
     id: "kendal",
-    before: "Had the songs. No framework to format them or present them. So the project just sat there.",
-    after: "A format to build every release on. The 4-track EP got finished.",
     name: "Kendal",
     handle: "k.o.g_30z",
     genre: "boom bap",
     hook: "I was confused how to even format my own songs.",
+    before: "Had the songs. No framework to format them or present them. So the project just sat there.",
+    after: "A format to build every release on. The 4-track EP got finished.",
     image: "/cases/kog.jpg",
     coverAspect: "1/1",
     heroAspect: "1/1",
     dnaAspect: "3/4",
-    dnaImage: "https://www.dropbox.com/scl/fi/77lfde1svovucsk7g8xcb/2026-07-22-3.04.58-AM.png?rlkey=1ozean05y8asx4ulocijbzx1u&st=98j1s1wu&raw=1",
+    dnaImage: "/media/dm-kendal.jpg",
     story: {
       soundFamiliar: "You've got songs - maybe a whole project's worth. But when you sit down to actually put it together, it all turns to fog: how do you format the songs, what order, what ties them together, how do you present it so it lands? You know you're good. You just can't see the shape of it. So it sits.",
       whereTheyWere: "Boom bap in the Nas / Joey Badass / Big L lineage - dense wordplay, ~3,000 followers. The craft is undeniable. But he had the music and no framework to format it or present it. When I offered positioning, there was zero hesitation - he said it was exactly what he needed.",
@@ -96,31 +158,7 @@ export const CASES = [
   }
 ];
 
-export const PROOF = [
-  {
-    artist: "OnetakeCarter",
-    track: "Angie",
-    reels: 250000,
-    streams: 50000,
-    coverArt: "https://www.dropbox.com/scl/fi/i2pz9oj1eim8azel6qg0t/2026-07-22-3.08.23-AM.png?rlkey=y5772sp4lssgtvqir20t7bogw&st=acpelqq3&raw=1"
-  },
-  {
-    artist: "Maximum",
-    track: "Things I've Seen",
-    video: 104000,
-    streams: 60000,
-    coverArt: "https://www.dropbox.com/scl/fi/skn0udm3n1lef7oi7e8uy/2026-07-22-3.07.47-AM.png?rlkey=ustgiqfz3lsiyp3ngqqwfz9ba&st=b4txtan7&raw=1"
-  },
-  {
-    artist: "http//:riri",
-    track: "Hard To Kill",
-    reels: 650000,
-    streams: 300000,
-    coverArt: "https://www.dropbox.com/scl/fi/q2nankk7ithlvvhzlspd9/2026-07-22-3.08.04-AM.png?rlkey=omkra31bhbnj8dof6kzoc4f7v&st=316ezc9k&raw=1"
-  }
-];
-
-// Phrases artists actually used - drifting word cloud in the "sound familiar?" section.
+// Phrases artists actually used - the drifting cloud in "sound familiar?".
 export const TRIED = [
   ["playlist submissions", "IG ads", "$50 promo services", "posting every day", "buying followers", "SubmitHub"],
   ["\"just make better music\"", "blog submissions", "TikTok trends", "cold DMs to labels", "pre-save campaigns", "new cover art"],
