@@ -546,16 +546,6 @@ export function Apply(_: Nav) {
           </div>
         </div>
       </section>
-
-      <section className="alt">
-        <div className="wrap">
-          <div className="guards">
-            <div className="guard"><span className="g-no">01</span><h3>A contract</h3><p>Both names, every deliverable listed, before anything moves.</p></div>
-            <div className="guard"><span className="g-no">02</span><h3>Real timelines</h3><p>A first beat draft in 2 days. Mix in 5. Artist DNA in 5 - and I say the date up front.</p></div>
-            <div className="guard"><span className="g-no">03</span><h3>An honest no</h3><p>If I'm not the right person for what you need, I'll tell you on the call.</p></div>
-          </div>
-        </div>
-      </section>
     </>
   );
 }
