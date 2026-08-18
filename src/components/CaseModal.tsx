@@ -111,15 +111,44 @@ export function CaseModal({ data, onClose }: CaseProps) {
               </ul>
             </div>
 
-            {/* DNA Document Image */}
+            {/* What he said after - the message, and the clip if there is one.
+                The clip is the only sound on the site, so it never autoplays. */}
             <div className="my-16">
-              {data.dnaImage ? (
-                <div className="max-w-xl relative bg-[#111] border border-white/5 p-2 md:p-4">
-                  <img src={data.dnaImage} alt="Artist DNA Preview" className="w-full h-auto rounded-sm" />
+              <h3 className="font-display text-2xl uppercase font-semibold mb-6 text-white">
+                What {data.name} said after
+              </h3>
+              <div className={data.feedbackVideo ? 'grid grid-cols-1 md:grid-cols-[0.85fr_1fr] gap-5 max-w-3xl' : 'max-w-xl'}>
+                {data.feedbackVideo && (
+                  <div>
+                    <div className="bg-[#111] border border-white/5 p-2 md:p-4">
+                      <video
+                        src={data.feedbackVideo}
+                        poster={data.feedbackPoster}
+                        controls
+                        playsInline
+                        preload="none"
+                        className="w-full rounded-sm bg-black"
+                        style={{ aspectRatio: '9 / 16', objectFit: 'cover' }}
+                      />
+                    </div>
+                    <p className="text-[#555] text-[10px] uppercase tracking-[0.18em] font-bold mt-3">
+                      In his own words · 30 sec
+                    </p>
+                  </div>
+                )}
+                <div>
+                  {data.dnaImage ? (
+                    <div className="relative bg-[#111] border border-white/5 p-2 md:p-4">
+                      <img src={data.dnaImage} alt={`Message from ${data.name}`} className="w-full h-auto rounded-sm" />
+                    </div>
+                  ) : (
+                    <Placeholder label={`Artist DNA Preview`} aspectRatio={data.dnaAspect} />
+                  )}
+                  <p className="text-[#555] text-[10px] uppercase tracking-[0.18em] font-bold mt-3">
+                    Straight from the DMs
+                  </p>
                 </div>
-              ) : (
-                <Placeholder label={`Artist DNA Preview`} aspectRatio={data.dnaAspect} className="max-w-xl" />
-              )}
+              </div>
             </div>
 
             {/* Where they are now */}

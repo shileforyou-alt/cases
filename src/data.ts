@@ -107,6 +107,8 @@ export const CASES = [
     heroAspect: "1/1",
     dnaAspect: "3/4",
     dnaImage: "/media/dm-princeton.jpg",
+    feedbackVideo: "/media/princeton-feedback.mp4",
+    feedbackPoster: "/media/princeton-feedback-poster.jpg",
     story: {
       soundFamiliar: "Making music costs money - beats, mixing, mastering, maybe a little ad spend. You put it all in, drop the track, and watch the numbers barely move. Do that a few times and it starts to feel like you're pouring money into a void. So when someone says \"you need positioning,\" part of you thinks: with what money?",
       whereTheyWere: "Melodic trap and R&B, ~2,200 followers. The talent is real - the kind of voice that fills a beat. But he was stuck in the loop: spending on his music, seeing minimal return, feeling like it was money into a void. His hesitation was honest, and it was about budget.",
