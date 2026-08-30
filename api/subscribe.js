@@ -19,7 +19,10 @@ export default async function handler(req, res) {
     return res.status(400).json({ success: false, error: 'Name and email are required' });
   }
 
-  const TOKEN = process.env.MAILERLITE_TOKEN;
+  // Trim: a token pasted into a dashboard field often carries a trailing
+  // newline, which makes the Authorization header invalid and turns a
+  // correct key into a 401.
+  const TOKEN = (process.env.MAILERLITE_TOKEN || '').trim();
   if (!TOKEN) {
     console.error('Server Configuration Error: Missing MAILERLITE_TOKEN');
     return res.status(500).json({ success: false, error: 'Server configuration error' });
@@ -47,7 +50,9 @@ export default async function handler(req, res) {
     if (!r.ok) {
       const body = await r.text();
       console.error('MailerLite error', r.status, body);
-      return res.status(502).json({ success: false, error: 'Upstream error' });
+      // Surface the upstream status (not the body) so a broken key can be
+      // told apart from a rejected payload without opening the logs.
+      return res.status(502).json({ success: false, error: 'Upstream error', upstream: r.status });
     }
 
     return res.status(200).json({ success: true });
