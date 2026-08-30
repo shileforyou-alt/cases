@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 // Pack Form - the funnel landing capture. Two fields only: name + email.
 // Every extra field costs completion, and the pack link is the payoff, so
 // the artist gets it on the very next screen - no waiting for the email.
-const PACK_URL = 'https://bsta.rs/xe3KxB';
+const PACK_URL = 'https://www.dropbox.com/scl/fo/ylcbl1zb6u31reut8xh6y/AJVtsz57p27TAV1nxayOYYU?rlkey=n9nsrxlu5r9lk7knvptncj7xn&st=so4b197z&dl=0';
+const STORE_URL = 'https://bsta.rs/xe3KxB';
 
 export function PackForm() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'done'>('idle');
@@ -19,6 +20,15 @@ export function PackForm() {
     e.preventDefault();
     if (status === 'sending') return;
     setStatus('sending');
+
+    // The list is the point of this funnel: a single sale closes in 7 days
+    // for 3% of deals, the rest take months of touches. So the subscriber
+    // matters more than the checkout.
+    fetch('/api/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: form.name, email: form.email, genre: form.genre }),
+    }).catch(() => {});
 
     // Fire-and-forget Telegram notification.
     fetch('/api/notify', {
@@ -61,10 +71,22 @@ export function PackForm() {
           href={PACK_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block self-start bg-shile-red text-white font-semibold text-sm px-12 py-5 uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-colors mb-8"
+          className="inline-block self-start bg-shile-red text-white font-semibold text-sm px-12 py-5 uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-colors mb-6"
         >
-          Open the pack
+          Download the pack
         </a>
+        <p className="text-shile-grey text-base leading-relaxed mb-8">
+          Free to keep and write on.{' '}
+          <a
+            href={STORE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white underline underline-offset-4 hover:text-shile-red transition-colors"
+          >
+            Licenses, stems and the full pack are here
+          </a>{' '}
+          when you're ready to release.
+        </p>
         <p className="text-white text-base leading-relaxed mb-8">
           And if you've been looking for a producer to actually build something with -
           follow me. That's where it starts.
