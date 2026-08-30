@@ -1,6 +1,7 @@
 import React from 'react';
 import { MIXES } from './data';
 import { ApplyForm } from './components/ApplyForm';
+import { PackForm } from './components/PackForm';
 import { Helix, Player, TrackList, CustomCases, CaseGrid, Cloud, CtaBand } from './components/Blocks';
 
 type Nav = { go: (path: string) => void; onOpen?: (c: any) => void };
@@ -227,7 +228,7 @@ export function Production({ go }: Nav) {
               </p>
             </div>
             <figure className="figure">
-              <video src="/media/backg.mp4" poster="/media/backg-poster.jpg" autoPlay muted loop playsInline aria-hidden="true" style={{ aspectRatio: '9 / 16' }} />
+              <video src="/media/back.mp4" poster="/media/back-poster.jpg" autoPlay muted loop playsInline aria-hidden="true" style={{ aspectRatio: '9 / 16' }} />
               <figcaption>Session, 2 a.m.</figcaption>
             </figure>
           </div>
@@ -547,5 +548,61 @@ export function Apply(_: Nav) {
         </div>
       </section>
     </>
+  );
+}
+
+/* ============================================================ PACK
+   Funnel landing for the Instagram comment -> DM -> form flow.
+   Not in NAV on purpose: entry point for one campaign, not a site section.
+   Text leads, photos follow - the artist reads who this is from before
+   the visuals. Video lives behind the form panel only, dimmed. */
+
+export function Pack(_: Nav) {
+  return (
+    <section className="first" style={{ paddingTop: 'clamp(48px,6vw,84px)' }}>
+      <div className="wrap">
+        <div className="split">
+          <div>
+            <p className="pack-nm">Shile (Paul)</p>
+            <p className="pack-rl">Music producer</p>
+
+            <h2 style={{ marginTop: 18 }}>5 melodic<br /><span className="red">trap beats</span></h2>
+
+            <div className="pack-story">
+              <p>
+                Three years at this full time, mostly with independent artists in the
+                US and UK. 150+ tracks out.
+              </p>
+              <p>
+                I got into it because of what music did to me first - the right track
+                drops you back into a moment ten years later. That's still what I'm
+                after every time I open a session.
+              </p>
+            </div>
+
+            <div className="pack-shot">
+              <img src="/media/shile-studio-2.jpg" alt="Shile in the studio" />
+            </div>
+
+            <div className="pack-story">
+              <p>
+                These five came out of the same run. One mood, arrangements left open,
+                space kept for a voice on top.
+              </p>
+              <p><b>Fill in your name and email - the pack opens right after.</b></p>
+            </div>
+          </div>
+
+          <div className="pack-formwrap">
+            <div className="pack-formvid">
+              <video src="/media/back.mp4" poster="/media/back-poster.jpg" autoPlay muted loop playsInline aria-hidden="true" />
+            </div>
+            <div className="pack-forminner">
+              <PackForm />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }

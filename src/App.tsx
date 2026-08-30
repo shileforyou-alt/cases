@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { CaseModal } from './components/CaseModal';
-import { Home, Production, MixMaster, ArtistDna, CasesPage, Apply } from './pages';
+import { Home, Production, MixMaster, ArtistDna, CasesPage, Apply, Pack } from './pages';
 
 /* Tiny router: real URLs, no dependency. vercel.json already rewrites
    every non-api path to index.html, so deep links work on refresh. */
@@ -13,6 +13,8 @@ const PAGES: Record<string, React.ComponentType<any>> = {
   '/mix-master': MixMaster,
   '/cases': CasesPage,
   '/apply': Apply,
+  // Campaign landing - intentionally absent from NAV below.
+  '/pack': Pack,
 };
 
 const NAV: [string, string][] = [
@@ -65,9 +67,13 @@ export default function App() {
             ))}
           </div>
           <div className="nav-right">
-            <a className="btn sm" href="/apply" onClick={(e) => { e.preventDefault(); go('/apply'); }}>
-              Book a call
-            </a>
+            {/* The pack landing is a single-goal page: the only action on it is
+                the form, so the nav CTA is hidden there. */}
+            {path !== '/pack' && (
+              <a className="btn sm" href="/apply" onClick={(e) => { e.preventDefault(); go('/apply'); }}>
+                Book a call
+              </a>
+            )}
           </div>
         </div>
       </nav>

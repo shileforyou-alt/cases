@@ -8,9 +8,14 @@ export default async function handler(req, res) {
     return res.status(405).json({ success: false, error: 'Method Not Allowed' });
   }
 
-  const { name, handle, link, blocker, referredBy } = req.body || {};
+  const { type, name, email, genre, handle, link, blocker, referredBy } = req.body || {};
 
-  if (!name || !handle || !link || !blocker) {
+  // Two shapes of lead reach this endpoint:
+  //   'pack'  - the Instagram funnel landing, name + email only
+  //   default - the full application form on /apply
+  const isPack = type === 'pack';
+
+  if (isPack ? !name || !email : !name || !handle || !link || !blocker) {
     return res.status(400).json({ success: false, error: 'All fields are required' });
   }
 
@@ -24,7 +29,9 @@ export default async function handler(req, res) {
 
   const timestamp = new Date().toLocaleString('en-GB', { timeZone: 'UTC' });
   const referral = referredBy && String(referredBy).trim() ? referredBy : '—';
-  const message = `🎵 <b>NEW ARTIST LEAD! (shile.vision)</b>\n━━━━━━━━━━━━━━\n👤 <b>Name:</b> ${name}\n📸 <b>Instagram:</b> ${handle}\n🎧 <b>Music:</b> ${link}\n🚧 <b>Blocker:</b> ${blocker}\n🔗 <b>Referred by:</b> ${referral}\n━━━━━━━━━━━━━━\n🕐 ${timestamp} UTC`;
+  const message = isPack
+    ? `🎁 <b>NEW PACK LEAD (shile.vision/pack)</b>\n━━━━━━━━━━━━━━\n👤 <b>Name:</b> ${name}\n✉️ <b>Email:</b> ${email}\n🎚 <b>Genre:</b> ${genre || '—'}\n📲 <b>Source:</b> Instagram pack funnel\n━━━━━━━━━━━━━━\n🕐 ${timestamp} UTC`
+    : `🎵 <b>NEW ARTIST LEAD! (shile.vision)</b>\n━━━━━━━━━━━━━━\n👤 <b>Name:</b> ${name}\n📸 <b>Instagram:</b> ${handle}\n🎧 <b>Music:</b> ${link}\n🚧 <b>Blocker:</b> ${blocker}\n🔗 <b>Referred by:</b> ${referral}\n━━━━━━━━━━━━━━\n🕐 ${timestamp} UTC`;
 
   try {
     const telegramRes = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
