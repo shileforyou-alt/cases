@@ -1,4 +1,4 @@
-import { askOnInstagram, IG as IG_HREF } from '../lib/dm';
+import { IG as IG_HREF } from '../lib/dm';
 import React, { useRef, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { PremiumDNAHelix, HelixLights } from './PremiumDNAHelix';
@@ -291,7 +291,7 @@ export function CtaBand({
   price?: string | null;
   buyUrl?: string;
   priceNote?: string;
-  /* Текст, который копируется в буфер перед открытием лички. */
+  /* Задан - закрывающая кнопка ведёт в личку вместо формы. */
   askMessage?: string;
 }) {
   return (
@@ -312,11 +312,7 @@ export function CtaBand({
               Buy on BeatStars
             </a>
             {askMessage ? (
-              <a
-                className="btn big ghost"
-                href={IG_HREF}
-                onClick={(e) => { e.preventDefault(); askOnInstagram(askMessage); }}
-              >
+              <a className="btn big ghost" href={IG_HREF} target="_blank" rel="noopener noreferrer">
                 {label}
               </a>
             ) : (
@@ -330,11 +326,7 @@ export function CtaBand({
             )}
           </div>
         ) : askMessage ? (
-          <a
-            className="btn big"
-            href={IG_HREF}
-            onClick={(e) => { e.preventDefault(); askOnInstagram(askMessage); }}
-          >
+          <a className="btn big" href={IG_HREF} target="_blank" rel="noopener noreferrer">
             {label}
           </a>
         ) : (

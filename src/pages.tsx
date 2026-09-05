@@ -1,6 +1,6 @@
 import React from 'react';
 import { MIXES, SERVICES, BLIND_QUOTES } from './data';
-import { askOnInstagram, IG } from './lib/dm';
+import { IG } from './lib/dm';
 import { ApplyForm } from './components/ApplyForm';
 import { PackForm } from './components/PackForm';
 import { Helix, Player, TrackList, CustomCases, CaseGrid, Cloud, CtaBand } from './components/Blocks';
@@ -485,11 +485,7 @@ export function ArtistDna({ go, onOpen }: Nav) {
             <a className="btn big" href={SERVICES.dna.url} target="_blank" rel="noopener noreferrer">
               Buy on BeatStars
             </a>
-            <a
-              className="btn big ghost"
-              href={IG}
-              onClick={(e) => { e.preventDefault(); askOnInstagram('Yo Shile, I want to ask about Artist DNA'); }}
-            >
+            <a className="btn big ghost" href={IG} target="_blank" rel="noopener noreferrer">
               Ask first
             </a>
           </div>
