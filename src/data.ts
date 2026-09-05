@@ -1,3 +1,12 @@
+// Услуги на BeatStars: цена и ссылка на оплату. Меняется только здесь.
+// price: null - цена не показывается, остаётся одна кнопка.
+export const SERVICES = {
+  dna:    { price: null as string | null, url: "https://www.beatstars.com/shilebeats/services/154317" },
+  custom: { price: "$249", url: "https://www.beatstars.com/shilebeats/services/154319" },
+  mix:    { price: "$149", url: "https://www.beatstars.com/shilebeats/services/154318" },
+  blind:  { price: "$49",  url: "https://www.beatstars.com/shilebeats/services/154305" },
+};
+
 // Releases - titles, artists and covers as they appear on Spotify.
 export const TRACKS = [
   {
@@ -171,4 +180,13 @@ export const TRIED = [
   ["three days of streams, then silence", "money in, nothing moves", "the next one will hit", "I'm good and it doesn't matter"],
   ["posting feels fake", "scared to look thirsty", "comparing myself to everyone", "lost the reason I started"],
   ["recorded it, then froze", "what do I even post", "does any of this connect", "\"I'll figure it out after the drop\""]
+];
+
+// Blind Spot - реальные ответы артистов после разбора, из личных сообщений.
+// Без имён: разрешение на публикацию ников не запрашивалось.
+export const BLIND_QUOTES = [
+  "Holy shit, I actually really appreciate that insight. You're right, I need to establish my identity in socials, there's nothing keeping them there like you said. This insight has been phenomenal.",
+  "I do everything by myself, I kinda get lost in all of it and just focus on giving consistent music. I lack on strategy for sure.",
+  "I've spent much more time refining music than promoting, and I do need to clean up my page. Thank you for pointing that out to me.",
+  "You are speaking facts. I'm in between wanting to share more and keeping my private life private. I also want to build a sound - I pick different subgenre beats but I want to tie them all together.",
 ];

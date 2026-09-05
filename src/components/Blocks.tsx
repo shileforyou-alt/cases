@@ -276,20 +276,50 @@ export function CtaBand({
   note,
   label = 'Book a call',
   go,
+  price,
+  buyUrl,
+  priceNote,
 }: {
   title: React.ReactNode;
   note?: string;
   label?: string;
   go: (path: string) => void;
+  /* Оплата на BeatStars. Когда buyUrl задан, полоса становится
+     точкой покупки: цена слева, оплата основной кнопкой, вопрос - вторичной. */
+  price?: string | null;
+  buyUrl?: string;
+  priceNote?: string;
 }) {
   return (
     <section>
       <div className="wrap cta-band">
         <h2>{title}</h2>
         {note && <p>{note}</p>}
-        <a className="btn big" href="/apply" onClick={(e) => { e.preventDefault(); go('/apply'); }}>
-          {label}
-        </a>
+
+        {buyUrl ? (
+          <div className="buy-row">
+            {price && (
+              <div className="buy-price">
+                {price}
+                {priceNote && <small>{priceNote}</small>}
+              </div>
+            )}
+            <a className="btn big" href={buyUrl} target="_blank" rel="noopener noreferrer">
+              Buy on BeatStars
+            </a>
+            <a
+              className="btn big ghost"
+              href="/apply"
+              onClick={(e) => { e.preventDefault(); go('/apply'); }}
+            >
+              {label}
+            </a>
+          </div>
+        ) : (
+          <a className="btn big" href="/apply" onClick={(e) => { e.preventDefault(); go('/apply'); }}>
+            {label}
+          </a>
+        )}
       </div>
     </section>
   );

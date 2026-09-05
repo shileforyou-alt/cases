@@ -1,14 +1,28 @@
 import React, { useState } from 'react';
 
 // Pack Form - the funnel landing capture. Two fields only: name + email.
-// Every extra field costs completion, and the pack link is the payoff, so
-// the artist gets it on the very next screen - no waiting for the email.
-const PACK_URL = 'https://www.dropbox.com/scl/fo/ylcbl1zb6u31reut8xh6y/AJVtsz57p27TAV1nxayOYYU?rlkey=n9nsrxlu5r9lk7knvptncj7xn&st=so4b197z&dl=0';
+//
+// Раньше экран после отправки отдавал прямую ссылку на Dropbox. Артист забирал
+// пак тут же и в почту не заходил - а без открытого первого письма вся цепочка
+// из пяти писем мертва. Теперь пак живёт только в почте, а экран ведёт в инбокс.
 const STORE_URL = 'https://bsta.rs/xe3KxB';
+
+// Открыть чужой инбокс нельзя, но можно привести в его вебмейл по домену.
+// Незнакомый домен - кнопки нет, остаётся текст.
+const WEBMAIL: [RegExp, string, string][] = [
+  [/@(gmail|googlemail)\.com$/i, 'https://mail.google.com/', 'Open Gmail'],
+  [/@(yahoo|ymail|rocketmail)\./i, 'https://mail.yahoo.com/', 'Open Yahoo Mail'],
+  [/@(outlook|hotmail|live|msn)\./i, 'https://outlook.live.com/mail/', 'Open Outlook'],
+  [/@(icloud\.com|me\.com|mac\.com)$/i, 'https://www.icloud.com/mail', 'Open iCloud Mail'],
+  [/@proton(mail)?\./i, 'https://mail.proton.me/', 'Open Proton Mail'],
+  [/@aol\./i, 'https://mail.aol.com/', 'Open AOL Mail'],
+];
+
+const inbox = (email: string) => WEBMAIL.find(([re]) => re.test(email.trim()));
 
 export function PackForm() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'done'>('idle');
-  const [form, setForm] = useState({ name: '', email: '', genre: '' });
+  const [form, setForm] = useState({ name: '', email: '' });
 
   const field = (key: keyof typeof form) => ({
     value: form[key],
@@ -27,14 +41,14 @@ export function PackForm() {
     fetch('/api/subscribe', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: form.name, email: form.email, genre: form.genre }),
+      body: JSON.stringify({ name: form.name, email: form.email }),
     }).catch(() => {});
 
     // Fire-and-forget Telegram notification.
     fetch('/api/notify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type: 'pack', name: form.name, email: form.email, genre: form.genre }),
+      body: JSON.stringify({ type: 'pack', name: form.name, email: form.email }),
     }).catch(() => {});
 
     // Email copy of the lead via FormSubmit.
@@ -48,7 +62,6 @@ export function PackForm() {
           _captcha: 'false',
           Name: form.name,
           Email: form.email,
-          Genre: form.genre,
           Source: 'Instagram pack funnel',
         }),
       });
@@ -61,22 +74,34 @@ export function PackForm() {
   };
 
   if (status === 'done') {
+    const mail = inbox(form.email);
     return (
       <div className="flex flex-col justify-center">
-        <p className="text-shile-red text-[10px] uppercase tracking-widest font-bold mb-6">It's yours</p>
-        <p className="font-display font-bold text-3xl md:text-4xl leading-tight uppercase tracking-wide text-white mb-8">
-          Pack unlocked
+        <p className="text-shile-red text-[10px] uppercase tracking-widest font-bold mb-6">Check your inbox</p>
+        <p className="font-display font-bold text-3xl md:text-4xl leading-tight uppercase tracking-wide text-white mb-6">
+          It's on the way
         </p>
-        <a
-          href={PACK_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-block self-start bg-shile-red text-white font-semibold text-sm px-12 py-5 uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-colors mb-6"
-        >
-          Download the pack
-        </a>
         <p className="text-shile-grey text-base leading-relaxed mb-8">
-          Free to keep and write on.{' '}
+          The pack just landed in your email. Open it and the folder is inside.
+        </p>
+
+        {mail && (
+          <a
+            href={mail[1]}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block self-start bg-shile-red text-white font-semibold text-sm px-12 py-5 uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-colors mb-6"
+          >
+            {mail[2]}
+          </a>
+        )}
+
+        <p className="text-[#5f5f5f] text-[13px] leading-relaxed mb-8">
+          Not there in two minutes? Check promotions or spam, and drag it into your main
+          tab so the next ones land right.
+        </p>
+
+        <p className="text-shile-grey text-base leading-relaxed mb-8">
           <a
             href={STORE_URL}
             target="_blank"
@@ -124,22 +149,8 @@ export function PackForm() {
           className="w-full bg-transparent border-b border-[#333] py-3 text-white focus:outline-none focus:border-shile-red transition-colors text-lg"
         />
         <p className="text-[#5f5f5f] text-[13px] leading-relaxed mt-2">
-          I send the link here too, so it doesn't get buried in your DMs.
+          This is where the pack goes, so use the one you actually open.
         </p>
-      </div>
-
-      <div>
-        <label className="block text-shile-grey text-sm tracking-widest uppercase mb-2">What do you usually go for?</label>
-        <select
-          required
-          {...field('genre')}
-          className="w-full bg-transparent border-b border-[#333] py-3 text-white focus:outline-none focus:border-shile-red transition-colors text-lg appearance-none cursor-pointer"
-        >
-          <option value="" className="bg-[#0a0a0a]">Choose one</option>
-          <option className="bg-[#0a0a0a]">Dark trap</option>
-          <option className="bg-[#0a0a0a]">Melodic trap</option>
-          <option className="bg-[#0a0a0a]">I'm open to everything</option>
-        </select>
       </div>
 
       <div className="pt-4">

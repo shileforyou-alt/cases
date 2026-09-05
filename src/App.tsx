@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { CaseModal } from './components/CaseModal';
-import { Home, Production, MixMaster, ArtistDna, CasesPage, Apply, Pack } from './pages';
+import { Home, Production, MixMaster, ArtistDna, BlindSpot, CasesPage, Apply, Pack } from './pages';
 
 /* Tiny router: real URLs, no dependency. vercel.json already rewrites
    every non-api path to index.html, so deep links work on refresh. */
@@ -11,6 +11,7 @@ const PAGES: Record<string, React.ComponentType<any>> = {
   '/artist-dna': ArtistDna,
   '/production': Production,
   '/mix-master': MixMaster,
+  '/blind-spot': BlindSpot,
   '/cases': CasesPage,
   '/apply': Apply,
   // Campaign landing - intentionally absent from NAV below.
@@ -21,6 +22,7 @@ const NAV: [string, string][] = [
   ['/artist-dna', 'Artist DNA'],
   ['/production', 'Custom production'],
   ['/mix-master', 'Mix & Master'],
+  ['/blind-spot', 'Blind Spot'],
   ['/cases', 'Cases'],
 ];
 

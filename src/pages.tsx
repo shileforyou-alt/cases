@@ -1,5 +1,5 @@
 import React from 'react';
-import { MIXES } from './data';
+import { MIXES, SERVICES, BLIND_QUOTES } from './data';
 import { ApplyForm } from './components/ApplyForm';
 import { PackForm } from './components/PackForm';
 import { Helix, Player, TrackList, CustomCases, CaseGrid, Cloud, CtaBand } from './components/Blocks';
@@ -257,7 +257,10 @@ export function Production({ go }: Nav) {
       <CtaBand
         go={go}
         title={<>Tired of YouTube beats.<br /><span className="red">I want to be unique</span></>}
-        label="I want custom production"
+        label="Ask first"
+        price={SERVICES.custom.price}
+        buyUrl={SERVICES.custom.url}
+        priceNote="First draft in 2 days"
       />
     </>
   );
@@ -321,6 +324,9 @@ export function MixMaster({ go }: Nav) {
         go={go}
         title={<>I want to sound<br /><span className="red">Billboard</span></>}
         label="Send me a song"
+        price={SERVICES.mix.price}
+        buyUrl={SERVICES.mix.url}
+        priceNote="5 days"
       />
     </>
   );
@@ -471,9 +477,107 @@ export function ArtistDna({ go, onOpen }: Nav) {
       <section className="alt">
         <div className="wrap cta-band">
           <h2>Let's find out<br /><span className="red">who you are</span></h2>
-          <Link go={go} to="/apply" className="btn big">Book a call</Link>
+          <div className="buy-row">
+            {SERVICES.dna.price && (
+              <div className="buy-price">
+                {SERVICES.dna.price}
+                <small>6 days, then a call</small>
+              </div>
+            )}
+            <a className="btn big" href={SERVICES.dna.url} target="_blank" rel="noopener noreferrer">
+              Buy on BeatStars
+            </a>
+            <Link go={go} to="/apply" className="btn big ghost">Book a call</Link>
+          </div>
         </div>
       </section>
+    </>
+  );
+}
+
+
+/* ============================================================ BLIND SPOT */
+
+export function BlindSpot({ go }: Nav) {
+  const steps: [string, string][] = [
+    ['Your pages', "What someone understands about you in the first 5 seconds, and where you're losing people before they ever press play."],
+    ['Your last records', "I open them and listen out loud. How the vocal sits, where it's getting buried, whether the beats you're picking suit your voice."],
+    ['What to do next', 'Three specific things to change on your next release. Not "build your brand" - three things you can do this week.'],
+  ];
+
+  return (
+    <>
+      <section className="hero first" style={{ paddingTop: 'clamp(48px,7vw,80px)' }}>
+        <div className="wrap hero-media">
+          <div className="hero-in">
+            <p className="label red">04 — Blind spot</p>
+            <h1>The part you can't see<em>from inside your own project</em></h1>
+            <p className="hero-lead">
+              You're too close to your own thing to see it the way a stranger does. This is me
+              looking at it from the outside and telling you what I actually see.
+            </p>
+            <div className="hero-meta">
+              <span>10 minutes</span><span>Back in 2 days</span><span>No call</span>
+            </div>
+          </div>
+          <figure className="figure">
+            <img src="/media/studio.jpg" alt="Studio" loading="lazy" />
+            <figcaption>Where it gets recorded.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section className="alt">
+        <div className="wrap">
+          <div className="sec-head">
+            <h2>What I go through</h2>
+            <p>One video, recorded in one take, yours to keep.</p>
+          </div>
+          <div className="guards">
+            {steps.map(([h, p2], i) => (
+              <div className="guard" key={h}>
+                <span className="g-no">{String(i + 1).padStart(2, '0')}</span>
+                <h3>{h}</h3>
+                <p>{p2}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div className="wrap">
+          <div className="sec-head">
+            <h2>What artists said after</h2>
+            <p>Their words, straight out of the DMs.</p>
+          </div>
+          <div className="bs-quotes">
+            {BLIND_QUOTES.map((q) => (
+              <blockquote className="bs-q" key={q}><p>{q}</p></blockquote>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="alt">
+        <div className="wrap">
+          <div className="sec-head"><h2>How it works</h2><p>From payment to the video link.</p></div>
+          <div className="guards">
+            <div className="guard"><span className="g-no">01</span><h3>You pay</h3><p>Then message me on Instagram @shileforyou and tell me the email you paid from.</p></div>
+            <div className="guard"><span className="g-no">02</span><h3>You send links</h3><p>Your profiles and your latest tracks, plus any questions you want answered.</p></div>
+            <div className="guard"><span className="g-no">03</span><h3>You get the video</h3><p>Ten minutes, back with you within 2 days. No call, nothing to schedule.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <CtaBand
+        go={go}
+        title={<>Show me what<br /><span className="red">I can't see</span></>}
+        label="Ask first"
+        price={SERVICES.blind.price}
+        buyUrl={SERVICES.blind.url}
+        priceNote="One video, yours to keep"
+      />
     </>
   );
 }
@@ -589,7 +693,7 @@ export function Pack(_: Nav) {
                 These five came out of the same run. One mood, arrangements left open,
                 space kept for a voice on top.
               </p>
-              <p><b>Fill in your name and email - the pack opens right after.</b></p>
+              <p><b>Fill in your name and email and the pack is yours - it lands straight in your inbox.</b></p>
             </div>
           </div>
 
