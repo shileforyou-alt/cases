@@ -1,3 +1,4 @@
+import { askOnInstagram, IG as IG_HREF } from '../lib/dm';
 import React, { useRef, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { PremiumDNAHelix, HelixLights } from './PremiumDNAHelix';
@@ -274,11 +275,12 @@ export function Cloud() {
 export function CtaBand({
   title,
   note,
-  label = 'Book a call',
+  label = 'Ask first',
   go,
   price,
   buyUrl,
   priceNote,
+  askMessage,
 }: {
   title: React.ReactNode;
   note?: string;
@@ -289,6 +291,8 @@ export function CtaBand({
   price?: string | null;
   buyUrl?: string;
   priceNote?: string;
+  /* Текст, который копируется в буфер перед открытием лички. */
+  askMessage?: string;
 }) {
   return (
     <section>
@@ -307,14 +311,32 @@ export function CtaBand({
             <a className="btn big" href={buyUrl} target="_blank" rel="noopener noreferrer">
               Buy on BeatStars
             </a>
-            <a
-              className="btn big ghost"
-              href="/apply"
-              onClick={(e) => { e.preventDefault(); go('/apply'); }}
-            >
-              {label}
-            </a>
+            {askMessage ? (
+              <a
+                className="btn big ghost"
+                href={IG_HREF}
+                onClick={(e) => { e.preventDefault(); askOnInstagram(askMessage); }}
+              >
+                {label}
+              </a>
+            ) : (
+              <a
+                className="btn big ghost"
+                href="/apply"
+                onClick={(e) => { e.preventDefault(); go('/apply'); }}
+              >
+                {label}
+              </a>
+            )}
           </div>
+        ) : askMessage ? (
+          <a
+            className="btn big"
+            href={IG_HREF}
+            onClick={(e) => { e.preventDefault(); askOnInstagram(askMessage); }}
+          >
+            {label}
+          </a>
         ) : (
           <a className="btn big" href="/apply" onClick={(e) => { e.preventDefault(); go('/apply'); }}>
             {label}

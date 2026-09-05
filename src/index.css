@@ -166,7 +166,9 @@ nav{position:sticky;top:0;z-index:40;border-bottom:1px solid var(--line);backgro
 
 
 /* ============ HERO ============ */
-.hero{min-height:calc(100svh - 96px);display:grid;align-items:center;overflow:hidden}
+.hero{min-height:calc(100svh - 96px);display:grid;grid-template-columns:minmax(0,1fr);align-items:center;overflow:hidden}
+/* Без явной колонки грид берёт max-content заголовка - то есть длину строки
+   без переносов - и вся страница уезжает вправо на узких экранах. */
 .hero-in{position:relative;z-index:3;max-width:min(900px,100%);display:flex;flex-direction:column;gap:26px}
 .hero h1 em{font-style:normal;color:var(--red);display:block}
 .hero-lead{color:var(--grey);font-size:var(--fs-lead);line-height:1.62;max-width:46ch}
@@ -186,8 +188,8 @@ nav{position:sticky;top:0;z-index:40;border-bottom:1px solid var(--line);backgro
 }
 .hero.with-video .hero-in{text-shadow:0 2px 30px rgba(0,0,0,.9),0 1px 6px rgba(0,0,0,.7)}
 
-.hero-media{display:grid;grid-template-columns:1fr;gap:clamp(32px,4vw,64px);align-items:center;width:100%}
-@media(min-width:1000px){.hero-media{grid-template-columns:1.1fr .62fr}}
+.hero-media{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(32px,4vw,64px);align-items:center;width:100%}
+@media(min-width:1000px){.hero-media{grid-template-columns:minmax(0,1.1fr) minmax(0,.62fr)}}
 
 /* ============ TILES ============ */
 .tiles{display:grid;grid-template-columns:1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
@@ -451,3 +453,32 @@ footer{border-top:1px solid var(--line);padding:32px var(--pad);background:#000}
 .bs-quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2px}
 .bs-q{margin:0;border-left:2px solid var(--red);background:#0a0a0a;padding:clamp(20px,2.4vw,28px)}
 .bs-q p{margin:0;color:#d8d8d8;font-size:var(--fs-body,1rem);line-height:1.68;font-style:italic}
+
+/* ============ МОБИЛЬНОЕ МЕНЮ ============
+   До 940px ссылок в шапке нет вообще, поэтому навигация уезжает в бургер. */
+.burger{display:grid;gap:5px;width:26px;padding:6px 0;background:none;border:0;cursor:pointer}
+.burger i{display:block;height:2px;background:var(--ink);transition:background .2s}
+.burger:hover i{background:var(--red)}
+.burger:focus-visible{outline:2px solid var(--red);outline-offset:6px}
+@media(min-width:940px){.burger{display:none}}
+
+.navmenu{position:fixed;inset:0;z-index:60;background:#000;display:flex;flex-direction:column;
+  padding:12px var(--pad) calc(var(--pad) + 20px);overflow-y:auto;
+  animation:navmenu-in .18s ease-out}
+@keyframes navmenu-in{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.navmenu{animation:none}}
+.navmenu-top{display:flex;align-items:center;justify-content:space-between;
+  min-height:52px;margin-bottom:clamp(28px,6vh,52px)}
+.navmenu-x{background:none;border:0;color:var(--grey);font-size:34px;line-height:1;
+  cursor:pointer;padding:0 4px}
+.navmenu-x:hover{color:var(--ink)}
+.navmenu-x:focus-visible{outline:2px solid var(--red);outline-offset:4px}
+.navmenu-links{display:flex;flex-direction:column}
+.navmenu-links a{display:block;text-decoration:none;color:var(--ink);
+  font-family:var(--display,inherit);font-weight:600;letter-spacing:-.01em;
+  font-size:clamp(1.7rem,7.4vw,2.4rem);line-height:1.08;
+  padding:clamp(13px,2.4vh,18px) 0;border-bottom:1px solid var(--line)}
+.navmenu-links a .n{display:block;font-family:var(--body);font-size:var(--fs-label);
+  font-weight:600;letter-spacing:.2em;color:var(--red);margin-bottom:4px}
+.navmenu-links a.on{color:var(--red)}
+.navmenu-links a:focus-visible{outline:2px solid var(--red);outline-offset:4px}

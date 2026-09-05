@@ -33,6 +33,7 @@ const clean = (p: string) => {
 
 export default function App() {
   const [path, setPath] = useState(() => clean(window.location.pathname));
+  const [menu, setMenu] = useState(false);
   const [activeCase, setActiveCase] = useState<any>(null);
 
   useEffect(() => {
@@ -41,10 +42,24 @@ export default function App() {
     return () => window.removeEventListener('popstate', onPop);
   }, []);
 
+  useEffect(() => {
+    if (!menu) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMenu(false); };
+    document.addEventListener('keydown', onKey);
+    // Фон не должен прокручиваться под открытым меню.
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [menu]);
+
   const go = (to: string) => {
     const next = clean(to);
     if (next !== window.location.pathname) window.history.pushState({}, '', next);
     setActiveCase(null);
+    setMenu(false);
     setPath(next);
     window.scrollTo(0, 0);
   };
@@ -68,17 +83,41 @@ export default function App() {
               </a>
             ))}
           </div>
-          <div className="nav-right">
-            {/* The pack landing is a single-goal page: the only action on it is
-                the form, so the nav CTA is hidden there. */}
-            {path !== '/pack' && (
-              <a className="btn sm" href="/apply" onClick={(e) => { e.preventDefault(); go('/apply'); }}>
-                Book a call
-              </a>
-            )}
-          </div>
+          {/* Кнопки записи на созвон в шапке больше нет: разговор начинается
+              в личке из раздела услуги, а форма живёт только в кейсах. */}
+          <button
+            type="button"
+            className="burger"
+            aria-label={menu ? 'Close menu' : 'Open menu'}
+            aria-expanded={menu}
+            onClick={() => setMenu((v) => !v)}
+          >
+            <i /><i /><i />
+          </button>
         </div>
       </nav>
+
+      {menu && (
+        <div className="navmenu" role="dialog" aria-modal="true" aria-label="Menu">
+          <div className="navmenu-top">
+            <a className="brand" href="/" onClick={(e) => { e.preventDefault(); go('/'); }}>shile</a>
+            <button type="button" className="navmenu-x" aria-label="Close menu" onClick={() => setMenu(false)}>&times;</button>
+          </div>
+          <div className="navmenu-links">
+            {NAV.map(([to, label], i) => (
+              <a
+                key={to}
+                href={to}
+                className={path === to ? 'on' : ''}
+                onClick={(e) => { e.preventDefault(); go(to); }}
+              >
+                <span className="n">{String(i + 1).padStart(2, '0')}</span>
+                {label}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
 
       <AnimatePresence>
         {activeCase && <CaseModal data={activeCase} onClose={() => setActiveCase(null)} />}
@@ -89,7 +128,6 @@ export default function App() {
       <footer>
         <div className="foot">
           <span>shile.vision</span>
-          <span className="mid">Artist DNA</span>
           <span>
             <a href="https://instagram.com/shileforyou" target="_blank" rel="noreferrer">@shileforyou</a>
           </span>

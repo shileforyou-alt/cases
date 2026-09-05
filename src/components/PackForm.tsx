@@ -1,28 +1,33 @@
 import React, { useState } from 'react';
+import { openMailApp } from '../lib/dm';
 
 // Pack Form - the funnel landing capture. Two fields only: name + email.
 //
 // Раньше экран после отправки отдавал прямую ссылку на Dropbox. Артист забирал
 // пак тут же и в почту не заходил - а без открытого первого письма вся цепочка
 // из пяти писем мертва. Теперь пак живёт только в почте, а экран ведёт в инбокс.
-const STORE_URL = 'https://bsta.rs/xe3KxB';
 
 // Открыть чужой инбокс нельзя, но можно привести в его вебмейл по домену.
 // Незнакомый домен - кнопки нет, остаётся текст.
-const WEBMAIL: [RegExp, string, string][] = [
-  [/@(gmail|googlemail)\.com$/i, 'https://mail.google.com/', 'Open Gmail'],
-  [/@(yahoo|ymail|rocketmail)\./i, 'https://mail.yahoo.com/', 'Open Yahoo Mail'],
-  [/@(outlook|hotmail|live|msn)\./i, 'https://outlook.live.com/mail/', 'Open Outlook'],
-  [/@(icloud\.com|me\.com|mac\.com)$/i, 'https://www.icloud.com/mail', 'Open iCloud Mail'],
-  [/@proton(mail)?\./i, 'https://mail.proton.me/', 'Open Proton Mail'],
+// web - работает везде, app - открывает приложение на телефоне.
+const WEBMAIL: [RegExp, string, string, string?][] = [
+  [/@(gmail|googlemail)\.com$/i, 'https://mail.google.com/', 'Open Gmail', 'googlegmail://'],
+  [/@(yahoo|ymail|rocketmail)\./i, 'https://mail.yahoo.com/', 'Open Yahoo Mail', 'ymail://'],
+  [/@(outlook|hotmail|live|msn)\./i, 'https://outlook.live.com/mail/', 'Open Outlook', 'ms-outlook://'],
+  [/@(icloud\.com|me\.com|mac\.com)$/i, 'https://www.icloud.com/mail', 'Open Mail', 'message://'],
+  [/@proton(mail)?\./i, 'https://mail.proton.me/', 'Open Proton Mail', 'protonmail://'],
   [/@aol\./i, 'https://mail.aol.com/', 'Open AOL Mail'],
 ];
 
 const inbox = (email: string) => WEBMAIL.find(([re]) => re.test(email.trim()));
 
+/* Экран «письмо ушло» можно открыть напрямую, не заполняя форму:
+   /pack?done=you@gmail.com - удобно проверять текст и кнопку почты. */
+const preview = new URLSearchParams(window.location.search).get('done');
+
 export function PackForm() {
-  const [status, setStatus] = useState<'idle' | 'sending' | 'done'>('idle');
-  const [form, setForm] = useState({ name: '', email: '' });
+  const [status, setStatus] = useState<'idle' | 'sending' | 'done'>(preview ? 'done' : 'idle');
+  const [form, setForm] = useState({ name: '', email: preview && preview.includes('@') ? preview : '' });
 
   const field = (key: keyof typeof form) => ({
     value: form[key],
@@ -82,15 +87,14 @@ export function PackForm() {
           It's on the way
         </p>
         <p className="text-shile-grey text-base leading-relaxed mb-8">
-          The pack just landed in your email. Open it and the folder is inside.
+          It takes about a minute to reach you. Open the email and the folder is inside.
         </p>
 
         {mail && (
           <a
             href={mail[1]}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block self-start bg-shile-red text-white font-semibold text-sm px-12 py-5 uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-colors mb-6"
+            onClick={(e) => { e.preventDefault(); openMailApp(mail[1], mail[3]); }}
+            className="inline-block self-start bg-shile-red text-white font-semibold text-sm px-12 py-5 uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-colors mb-6 cursor-pointer"
           >
             {mail[2]}
           </a>
@@ -101,17 +105,6 @@ export function PackForm() {
           tab so the next ones land right.
         </p>
 
-        <p className="text-shile-grey text-base leading-relaxed mb-8">
-          <a
-            href={STORE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-white underline underline-offset-4 hover:text-shile-red transition-colors"
-          >
-            Licenses, stems and the full pack are here
-          </a>{' '}
-          when you're ready to release.
-        </p>
         <p className="text-white text-base leading-relaxed mb-8">
           And if you've been looking for a producer to actually build something with -
           follow me. That's where it starts.
@@ -122,7 +115,7 @@ export function PackForm() {
           rel="noopener noreferrer"
           className="inline-block self-start border border-white/20 px-6 py-3 text-white text-xs uppercase tracking-[0.2em] font-semibold hover:bg-white hover:text-black transition-colors"
         >
-          @shileforyou
+          Let's build
         </a>
       </div>
     );

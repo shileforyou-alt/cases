@@ -1,5 +1,6 @@
 import React from 'react';
 import { MIXES, SERVICES, BLIND_QUOTES } from './data';
+import { askOnInstagram, IG } from './lib/dm';
 import { ApplyForm } from './components/ApplyForm';
 import { PackForm } from './components/PackForm';
 import { Helix, Player, TrackList, CustomCases, CaseGrid, Cloud, CtaBand } from './components/Blocks';
@@ -43,9 +44,9 @@ export function Home({ go }: Nav) {
       pills: ['billboard sound', '5 days', 'your references', 'your idea'],
     },
     {
-      no: '04', to: '/production', h: 'Full project',
-      one: 'An EP or an album that sounds like one body of work - made together, start to finish.',
-      pills: ['3 to 8 tracks', 'full execution', 'teamwork'],
+      no: '04', to: '/blind-spot', h: 'Blind spot',
+      one: "Ten minutes on your pages and your last records, and the three things to change on the next release.",
+      pills: ['10 minutes', 'back in 2 days', 'no call'],
     },
   ];
 
@@ -61,7 +62,6 @@ export function Home({ go }: Nav) {
             what to do with all of it. Three years with US artists, 150+ tracks.
           </p>
           <div className="hero-cta">
-            <Link go={go} to="/apply" className="btn">Book a call</Link>
             <Link go={go} to="/cases" className="btn ghost">Cases</Link>
           </div>
           <div className="hero-meta">
@@ -139,6 +139,8 @@ export function Home({ go }: Nav) {
         go={go}
         title={<>Not sure which one you need?<br /><span className="red">Let's build</span></>}
         note="You want to make music - not just record tracks."
+        label="Let's build"
+        askMessage="Yo Shile, I'm not sure which one I need - can you point me?"
       />
     </>
   );
@@ -174,19 +176,13 @@ export function Production({ go }: Nav) {
 
       <section className="alt">
         <div className="wrap">
-          <div className="sec-head"><h2>Two ways to work</h2><p>One track, or the whole project.</p></div>
+          <div className="sec-head"><h2>How it works</h2><p>One beat, built from scratch.</p></div>
           <div className="tiles">
             <div className="tile" style={{ cursor: 'default' }}>
               <span className="no">01</span>
               <h3>One custom beat</h3>
               <p className="one">You send references and a rough idea. I build the beat from scratch, you get it exclusive with the stems.</p>
               <ul><li>your idea</li><li>from scratch</li><li>only for you</li><li>unlimited adjustments</li></ul>
-            </div>
-            <div className="tile" style={{ cursor: 'default' }}>
-              <span className="no">02</span>
-              <h3>Full project</h3>
-              <p className="one">3 to 8 tracks that sound like one body of work. Production, mix, master, and the rollout around the release.</p>
-              <ul><li>3 to 8 tracks</li><li>full execution</li><li>teamwork</li><li>one sound</li></ul>
             </div>
           </div>
         </div>
@@ -261,6 +257,7 @@ export function Production({ go }: Nav) {
         price={SERVICES.custom.price}
         buyUrl={SERVICES.custom.url}
         priceNote="First draft in 2 days"
+        askMessage="Yo Shile, I want to know more about custom production"
       />
     </>
   );
@@ -327,6 +324,7 @@ export function MixMaster({ go }: Nav) {
         price={SERVICES.mix.price}
         buyUrl={SERVICES.mix.url}
         priceNote="5 days"
+        askMessage="Yo Shile, I want to ask about mix and mastering"
       />
     </>
   );
@@ -487,7 +485,13 @@ export function ArtistDna({ go, onOpen }: Nav) {
             <a className="btn big" href={SERVICES.dna.url} target="_blank" rel="noopener noreferrer">
               Buy on BeatStars
             </a>
-            <Link go={go} to="/apply" className="btn big ghost">Book a call</Link>
+            <a
+              className="btn big ghost"
+              href={IG}
+              onClick={(e) => { e.preventDefault(); askOnInstagram('Yo Shile, I want to ask about Artist DNA'); }}
+            >
+              Ask first
+            </a>
           </div>
         </div>
       </section>
@@ -520,10 +524,6 @@ export function BlindSpot({ go }: Nav) {
               <span>10 minutes</span><span>Back in 2 days</span><span>No call</span>
             </div>
           </div>
-          <figure className="figure">
-            <img src="/media/studio.jpg" alt="Studio" loading="lazy" />
-            <figcaption>Where it gets recorded.</figcaption>
-          </figure>
         </div>
       </section>
 
@@ -577,6 +577,7 @@ export function BlindSpot({ go }: Nav) {
         price={SERVICES.blind.price}
         buyUrl={SERVICES.blind.url}
         priceNote="One video, yours to keep"
+        askMessage="Yo Shile, I want to ask about a Blind Spot"
       />
     </>
   );
