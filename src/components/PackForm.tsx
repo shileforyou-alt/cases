@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { openMailApp } from '../lib/dm';
 
 // Pack Form - the funnel landing capture. Two fields only: name + email.
 //
@@ -9,13 +8,13 @@ import { openMailApp } from '../lib/dm';
 
 // Открыть чужой инбокс нельзя, но можно привести в его вебмейл по домену.
 // Незнакомый домен - кнопки нет, остаётся текст.
-// web - работает везде, app - открывает приложение на телефоне.
-const WEBMAIL: [RegExp, string, string, string?][] = [
-  [/@(gmail|googlemail)\.com$/i, 'https://mail.google.com/', 'Open Gmail', 'googlegmail://'],
-  [/@(yahoo|ymail|rocketmail)\./i, 'https://mail.yahoo.com/', 'Open Yahoo Mail', 'ymail://'],
-  [/@(outlook|hotmail|live|msn)\./i, 'https://outlook.live.com/mail/', 'Open Outlook', 'ms-outlook://'],
-  [/@(icloud\.com|me\.com|mac\.com)$/i, 'https://www.icloud.com/mail', 'Open Mail', 'message://'],
-  [/@proton(mail)?\./i, 'https://mail.proton.me/', 'Open Proton Mail', 'protonmail://'],
+// Только веб-адреса. Схемы приложений убраны 07.09.2026, см. lib/dm.ts
+const WEBMAIL: [RegExp, string, string][] = [
+  [/@(gmail|googlemail)\.com$/i, 'https://mail.google.com/', 'Open Gmail'],
+  [/@(yahoo|ymail|rocketmail)\./i, 'https://mail.yahoo.com/', 'Open Yahoo Mail'],
+  [/@(outlook|hotmail|live|msn)\./i, 'https://outlook.live.com/mail/', 'Open Outlook'],
+  [/@(icloud\.com|me\.com|mac\.com)$/i, 'https://www.icloud.com/mail', 'Open Mail'],
+  [/@proton(mail)?\./i, 'https://mail.proton.me/', 'Open Proton Mail'],
   [/@aol\./i, 'https://mail.aol.com/', 'Open AOL Mail'],
 ];
 
@@ -93,16 +92,31 @@ export function PackForm() {
         {mail && (
           <a
             href={mail[1]}
-            onClick={(e) => { e.preventDefault(); openMailApp(mail[1], mail[3]); }}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-block self-start bg-shile-red text-white font-semibold text-sm px-12 py-5 uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-colors mb-6 cursor-pointer"
           >
             {mail[2]}
           </a>
         )}
 
-        <p className="text-[#5f5f5f] text-[13px] leading-relaxed mb-8">
+        <p className="text-[#5f5f5f] text-[13px] leading-relaxed mb-4">
           Not there in two minutes? Check promotions or spam, and drag it into your main
           tab so the next ones land right.
+        </p>
+        {/* Запасной путь. Без него человек, у которого письмо не дошло,
+            упирается в тупик - именно так 07.09 потерялся лид. */}
+        <p className="text-[#5f5f5f] text-[13px] leading-relaxed mb-8">
+          Still nothing?{' '}
+          <a
+            href="https://ig.me/m/shileforyou"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white underline underline-offset-4 hover:text-shile-red transition-colors"
+          >
+            Message me on Instagram
+          </a>{' '}
+          and I'll send it to you myself.
         </p>
 
         <p className="text-white text-base leading-relaxed mb-8">
