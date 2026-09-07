@@ -1,7 +1,7 @@
 // Услуги на BeatStars: цена и ссылка на оплату. Меняется только здесь.
 // price: null - цена не показывается, остаётся одна кнопка.
 export const SERVICES = {
-  dna:    { price: "$449" as string | null, url: "https://www.beatstars.com/shilebeats/services/154317" },
+  dna:    { price: "$397" as string | null, url: "https://www.beatstars.com/shilebeats/services/154317" },
   custom: { price: "$249", url: "https://www.beatstars.com/shilebeats/services/154319" },
   mix:    { price: "$149", url: "https://www.beatstars.com/shilebeats/services/154318" },
   blind:  { price: "$49",  url: "https://www.beatstars.com/shilebeats/services/154305" },
