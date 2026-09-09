@@ -24,6 +24,12 @@ const inbox = (email: string) => WEBMAIL.find(([re]) => re.test(email.trim()));
    /pack?done=you@gmail.com - удобно проверять текст и кнопку почты. */
 const preview = new URLSearchParams(window.location.search).get('done');
 
+/* Какой бит привёл лида - решает не форма и не артист, а ссылка в кнопке
+   ManyChat: /pack?beat=love, /pack?beat=5am, /pack?beat=ydc. Артист ничего
+   не вводит и не может ошибиться словом. Ссылка без ?beat= (старый пост,
+   прямой заход) уходит в общую мелодик пак-группу - см. api/subscribe.js. */
+const beat = new URLSearchParams(window.location.search).get('beat');
+
 export function PackForm() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'done'>(preview ? 'done' : 'idle');
   const [form, setForm] = useState({ name: '', email: preview && preview.includes('@') ? preview : '' });
@@ -45,7 +51,7 @@ export function PackForm() {
     fetch('/api/subscribe', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: form.name, email: form.email }),
+      body: JSON.stringify({ name: form.name, email: form.email, beat }),
     }).catch(() => {});
 
     // Fire-and-forget Telegram notification.
