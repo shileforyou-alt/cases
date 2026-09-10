@@ -659,6 +659,14 @@ export function Apply(_: Nav) {
    the visuals. Video lives behind the form panel only, dimmed. */
 
 export function Pack(_: Nav) {
+  /* "Быстрая польза 2.0", 10.09.2026: /pack теперь обслуживает две воронки на одной
+     странице - старую (5 битов, без ?beat=) и новую, по одному биту за раз. Текст
+     должен меняться вместе с формой, иначе человек с ?beat=love читает про пак из
+     пяти, а получает один файл. Сейчас реализован только beat=love; 5am/ydc и любое
+     другое значение показывают старый общий текст, как и раньше. */
+  const beat = new URLSearchParams(window.location.search).get('beat');
+  const isLove = beat === 'love';
+
   return (
     <section className="first" style={{ paddingTop: 'clamp(48px,6vw,84px)' }}>
       <div className="wrap">
@@ -667,11 +675,15 @@ export function Pack(_: Nav) {
             <p className="pack-nm">Shile (Paul)</p>
             <p className="pack-rl">Music producer</p>
 
-            <h2 style={{ marginTop: 18 }}>5 melodic<br /><span className="red">trap beats</span></h2>
+            {isLove ? (
+              <h2 style={{ marginTop: 18 }}>Love Dance<br /><span className="red">melodic beat + bonus</span></h2>
+            ) : (
+              <h2 style={{ marginTop: 18 }}>5 melodic<br /><span className="red">trap beats</span></h2>
+            )}
 
             <div className="pack-story">
               <p>
-                Three years at this full time, mostly with independent artists in the
+                {isLove ? 'Six' : 'Three'} years at this full time, mostly with independent artists in the
                 US and UK. 150+ tracks out.
               </p>
               <p>
@@ -686,11 +698,18 @@ export function Pack(_: Nav) {
             </div>
 
             <div className="pack-story">
-              <p>
-                These five came out of the same run. One mood, arrangements left open,
-                space kept for a voice on top.
-              </p>
-              <p><b>Fill in your name and email and the pack is yours - it lands straight in your inbox.</b></p>
+              {isLove ? (
+                <p>
+                  This one came out of a late session. One mood, arrangement left open,
+                  space kept for a voice on top.
+                </p>
+              ) : (
+                <p>
+                  These five came out of the same run. One mood, arrangements left open,
+                  space kept for a voice on top.
+                </p>
+              )}
+              <p><b>Fill in your name and email and it's yours - it lands straight in your inbox.</b></p>
             </div>
           </div>
 
