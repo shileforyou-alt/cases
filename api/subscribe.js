@@ -21,7 +21,7 @@ const DEFAULT_GROUP = '197237411642607559'; // "Beat pack - Instagram funnel" (�
 // / 5am / ydc упадёт в DEFAULT_GROUP, ничего не сломается, письма просто
 // уйдут по общей мелодик пак-воронке вместо бит-специфичной.
 const BEAT_GROUPS = {
-  love: 'ЗАМЕНИ_НА_ID_ГРУППЫ_LOVE_DANCE',
+  love: '198246995791447084', // love_test, подключена 10.09.2026
   '5am': 'ЗАМЕНИ_НА_ID_ГРУППЫ_5AM',
   ydc: 'ЗАМЕНИ_НА_ID_ГРУППЫ_YOU_DONT_CARE',
 };
