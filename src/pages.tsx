@@ -658,14 +658,23 @@ export function Apply(_: Nav) {
    Text leads, photos follow - the artist reads who this is from before
    the visuals. Video lives behind the form panel only, dimmed. */
 
+/* Один бит - один вход в "Быстрая польза 2.0". Заголовок в две строки, вторая строка
+   всегда "melodic beat + bonus" - фраза для отдела ManyChat, не название бита.
+   Текст истории бита ("This one came out...") общий на все три: своей формулировки
+   под каждый бит пока не было, отдельно попросишь - разведём. */
+const BEAT_META: Record<string, { title: [string, string] }> = {
+  love: { title: ['Love Dance', 'melodic beat + bonus'] },
+  '5am': { title: ['5AM', 'melodic beat + bonus'] },
+  ydc: { title: ["You Don't Care", 'melodic beat + bonus'] },
+};
+
 export function Pack(_: Nav) {
-  /* "Быстрая польза 2.0", 10.09.2026: /pack теперь обслуживает две воронки на одной
-     странице - старую (5 битов, без ?beat=) и новую, по одному биту за раз. Текст
-     должен меняться вместе с формой, иначе человек с ?beat=love читает про пак из
-     пяти, а получает один файл. Сейчас реализован только beat=love; 5am/ydc и любое
-     другое значение показывают старый общий текст, как и раньше. */
+  /* "Быстрая польза 2.0", 10.09.2026: /pack обслуживает две воронки на одной странице -
+     старую (5 битов, без ?beat=) и новую, по одному биту за раз через BEAT_META выше.
+     Без ?beat= или с незнакомым значением страница остаётся прежней: 5 melodic trap
+     beats, 3 года - именно так вела себя воронка до этого изменения. */
   const beat = new URLSearchParams(window.location.search).get('beat');
-  const isLove = beat === 'love';
+  const meta = beat ? BEAT_META[beat] : undefined;
 
   return (
     <section className="first" style={{ paddingTop: 'clamp(48px,6vw,84px)' }}>
@@ -675,15 +684,21 @@ export function Pack(_: Nav) {
             <p className="pack-nm">Shile (Paul)</p>
             <p className="pack-rl">Music producer</p>
 
-            {isLove ? (
-              <h2 style={{ marginTop: 18 }}>Love Dance<br /><span className="red">melodic beat + bonus</span></h2>
+            {meta ? (
+              <h2 style={{ marginTop: 18 }}>{meta.title[0]}<br /><span className="red">{meta.title[1]}</span></h2>
             ) : (
               <h2 style={{ marginTop: 18 }}>5 melodic<br /><span className="red">trap beats</span></h2>
             )}
 
+            {meta && (
+              <p style={{ marginTop: 18 }}>
+                <b>Fill in your name and email and it's yours - it lands straight in your inbox.</b>
+              </p>
+            )}
+
             <div className="pack-story">
               <p>
-                {isLove ? 'Six' : 'Three'} years at this full time, mostly with independent artists in the
+                {meta ? 'Six' : 'Three'} years at this full time, mostly with independent artists in the
                 US and UK. 150+ tracks out.
               </p>
               <p>
@@ -698,7 +713,7 @@ export function Pack(_: Nav) {
             </div>
 
             <div className="pack-story">
-              {isLove ? (
+              {meta ? (
                 <p>
                   This one came out of a late session. One mood, arrangement left open,
                   space kept for a voice on top.
@@ -709,7 +724,9 @@ export function Pack(_: Nav) {
                   space kept for a voice on top.
                 </p>
               )}
-              <p><b>Fill in your name and email and it's yours - it lands straight in your inbox.</b></p>
+              {!meta && (
+                <p><b>Fill in your name and email and it's yours - it lands straight in your inbox.</b></p>
+              )}
             </div>
           </div>
 
