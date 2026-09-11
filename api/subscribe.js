@@ -22,8 +22,8 @@ const DEFAULT_GROUP = '197237411642607559'; // "Beat pack - Instagram funnel" (�
 // уйдут по общей мелодик пак-воронке вместо бит-специфичной.
 const BEAT_GROUPS = {
   love: '198246995791447084', // love_test, подключена 10.09.2026
-  '5am': 'ЗАМЕНИ_НА_ID_ГРУППЫ_5AM',
-  ydc: 'ЗАМЕНИ_НА_ID_ГРУППЫ_YOU_DONT_CARE',
+  '5am': '198307462330189249', // 5am_test, подключена 11.09.2026
+  ydc: '198307486499865895', // ydc_test, подключена 11.09.2026
 };
 
 export default async function handler(req, res) {
