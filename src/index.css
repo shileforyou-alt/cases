@@ -454,6 +454,43 @@ footer{border-top:1px solid var(--line);padding:32px var(--pad);background:#000}
 .bs-q{margin:0;border-left:2px solid var(--red);background:#0a0a0a;padding:clamp(20px,2.4vw,28px)}
 .bs-q p{margin:0;color:#d8d8d8;font-size:var(--fs-body,1rem);line-height:1.68;font-style:italic}
 
+/* ============ COVER ART ============
+   Обложки сразу в цвете, без серого фильтра остальных картинок сайта:
+   здесь цвет и есть работа, а на телефоне наведения нет. */
+.covers{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+@media(min-width:900px){.covers{grid-template-columns:repeat(4,1fr)}}
+.cover{display:block;background:var(--bg);border:0;padding:clamp(6px,.8vw,10px);cursor:zoom-in;transition:background .25s}
+.cover:hover{background:#fff}
+.cover:focus-visible{outline-offset:-2px}
+.cover img{width:100%;aspect-ratio:1;object-fit:cover}
+/* ведущая обложка: на всю ширину на телефоне, плитка 2x2 на широком экране */
+.covers.lead .cover:first-child{grid-column:span 2}
+@media(min-width:900px){.covers.lead .cover:first-child{grid-row:span 2}}
+.figure.art img{filter:none;aspect-ratio:1;max-height:none}
+
+.lightbox{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.94);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  display:grid;place-items:center;padding:64px clamp(12px,7vw,96px) 24px;cursor:zoom-out;animation:navmenu-in .18s ease-out}
+/* ширина считается от высоты экрана, чтобы квадрат с подписью влезал целиком */
+.lightbox figure{margin:0;width:min(100%,calc(100svh - 140px));border:1px solid var(--line-soft);background:#050505;padding:10px;cursor:default}
+.lightbox img{width:100%;aspect-ratio:1;object-fit:contain}
+.lightbox figcaption{display:flex;justify-content:space-between;gap:16px;font-family:var(--mono);font-size:.62rem;color:var(--grey);padding:10px 4px 2px}
+.lightbox figcaption span:first-child{white-space:nowrap}
+.lightbox figcaption span:last-child{text-align:right}
+.lb-x,.lb-nav{position:absolute;width:44px;height:44px;background:rgba(0,0,0,.6);border:1px solid #333;color:#fff;cursor:pointer;font-size:1.1rem;line-height:1;transition:background .2s}
+.lb-x:hover,.lb-nav:hover{background:var(--red)}
+.lb-x{top:12px;right:12px}
+.lb-nav{top:50%;transform:translateY(-50%)}
+.lb-nav.prev{left:12px}
+.lb-nav.next{right:12px}
+/* на телефоне обложка занимает всю ширину, стрелки уходят под неё */
+@media(max-width:700px){
+  .lightbox{padding-bottom:92px}
+  .lightbox figure{width:min(100%,calc(100svh - 208px))}
+  .lb-nav{top:auto;bottom:24px;transform:none}
+  .lb-nav.prev{left:calc(50% - 52px)}
+  .lb-nav.next{right:calc(50% - 52px)}
+}
+
 /* ============ МОБИЛЬНОЕ МЕНЮ ============
    До 940px ссылок в шапке нет вообще, поэтому навигация уезжает в бургер. */
 .burger{display:grid;gap:5px;width:26px;padding:6px 0;background:none;border:0;cursor:pointer}

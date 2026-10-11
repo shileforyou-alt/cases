@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { CaseModal } from './components/CaseModal';
-import { Home, Production, MixMaster, ArtistDna, BlindSpot, CasesPage, Apply, Pack } from './pages';
+import { Home, Production, MixMaster, ArtistDna, BlindSpot, CoverArt, CasesPage, Apply, Pack } from './pages';
 
 /* Tiny router: real URLs, no dependency. vercel.json already rewrites
    every non-api path to index.html, so deep links work on refresh. */
@@ -12,6 +12,7 @@ const PAGES: Record<string, React.ComponentType<any>> = {
   '/production': Production,
   '/mix-master': MixMaster,
   '/blind-spot': BlindSpot,
+  '/cover-art': CoverArt,
   '/cases': CasesPage,
   '/apply': Apply,
   // Campaign landing - intentionally absent from NAV below.
@@ -23,11 +24,16 @@ const NAV: [string, string][] = [
   ['/production', 'Custom production'],
   ['/mix-master', 'Mix & Master'],
   ['/blind-spot', 'Blind Spot'],
+  ['/cover-art', 'Cover art'],
   ['/cases', 'Cases'],
 ];
 
+// Услугу в разговоре называют и "cover arts" - такая ссылка тоже должна открыть страницу.
+const ALIAS: Record<string, string> = { '/cover-arts': '/cover-art' };
+
 const clean = (p: string) => {
-  const s = p.replace(/\/+$/, '') || '/';
+  const raw = p.replace(/\/+$/, '') || '/';
+  const s = ALIAS[raw] || raw;
   return PAGES[s] ? s : '/';
 };
 

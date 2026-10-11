@@ -5,7 +5,51 @@ export const SERVICES = {
   custom: { price: "$249", url: "https://www.beatstars.com/shilebeats/services/154319" },
   mix:    { price: "$149", url: "https://www.beatstars.com/shilebeats/services/154318" },
   blind:  { price: "$49",  url: "https://www.beatstars.com/shilebeats/services/154305" },
+  cover:  { price: "$99",  url: "https://www.beatstars.com/shilebeats/services/154824" },
 };
+
+// Cover art - работы дизайнера. Первая в списке ведущая: стоит в ширме страницы
+// услуги и крупной плиткой в кейсах. Рядом с каждым файлом лежит превью -640.jpg.
+// t - только там, где название напечатано на самой обложке, остальные без подписи.
+// w - ширина полного файла, нужна для srcset.
+export const COVERS = [
+  {
+    src: "/media/coverart/cover-01.jpg", w: 1024,
+    alt: "Cover art: a dark silhouette in motion blur against a burning orange haze"
+  },
+  {
+    src: "/media/coverart/cover-02.jpg", w: 1280, t: "Jay Royale x Anibal Beatz - Woes of the Creator",
+    alt: "Woes of the Creator, front cover: a man in a suit sits at a table in the sea, a column of smoke where his head should be"
+  },
+  {
+    src: "/media/coverart/cover-03.jpg", w: 1280, t: "Jay Royale x Anibal Beatz - Woes of the Creator, back cover",
+    alt: "Woes of the Creator, back cover: the tracklist next to a standing figure whose head turns into a column of smoke"
+  },
+  {
+    src: "/media/coverart/cover-04.jpg", w: 1024,
+    alt: "Cover art: a figure glowing white and blue in a dark field at night"
+  },
+  {
+    src: "/media/coverart/cover-05.jpg", w: 1024,
+    alt: "Cover art: three figures on a dark street, broken up by green and violet scan lines"
+  },
+  {
+    src: "/media/coverart/cover-06.jpg", w: 1024,
+    alt: "Cover art: a figure in electric blue with glowing eyes, neon scribbles around it"
+  },
+  {
+    src: "/media/coverart/cover-07.jpg", w: 1280, t: "Nominal",
+    alt: "Nominal, cover art: a backlit figure outlined in cyan, crossed by a beam of light"
+  },
+  {
+    src: "/media/coverart/cover-08.jpg", w: 1024,
+    alt: "Cover art in vintage comic style: a hooded figure with yellow eyes reaching for a falling microphone"
+  },
+  {
+    src: "/media/coverart/cover-09.jpg", w: 1024,
+    alt: "Illustrated cover art: a man in an oversized hoodie walking down a neon street"
+  }
+];
 
 // Releases - titles, artists and covers as they appear on Spotify.
 export const TRACKS = [

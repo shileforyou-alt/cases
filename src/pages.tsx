@@ -1,9 +1,9 @@
 import React from 'react';
-import { MIXES, SERVICES, BLIND_QUOTES } from './data';
+import { MIXES, SERVICES, BLIND_QUOTES, COVERS } from './data';
 import { IG } from './lib/dm';
 import { ApplyForm } from './components/ApplyForm';
 import { PackForm } from './components/PackForm';
-import { Helix, Player, TrackList, CustomCases, CaseGrid, Cloud, CtaBand } from './components/Blocks';
+import { Helix, Player, TrackList, CustomCases, CaseGrid, CoverGrid, Cloud, CtaBand } from './components/Blocks';
 
 type Nav = { go: (path: string) => void; onOpen?: (c: any) => void };
 
@@ -579,6 +579,82 @@ export function BlindSpot({ go }: Nav) {
   );
 }
 
+/* ============================================================ COVER ART */
+
+export function CoverArt({ go }: Nav) {
+  return (
+    <>
+      <section className="hero first" style={{ paddingTop: 'clamp(48px,7vw,80px)' }}>
+        <div className="wrap hero-media">
+          <div className="hero-in">
+            <p className="label red">05 — Cover art</p>
+            <h1>They see it<em>before they hear it</em></h1>
+            <p className="hero-lead">
+              Custom artwork designed around the concept, the mood and the identity of your release.
+              You bring the idea and the references, we go through every detail together and build
+              it around your vision
+            </p>
+            <div className="hero-meta">
+              <span>Made by hand</span><span>No AI</span><span>4 days</span>
+            </div>
+          </div>
+          <figure className="figure art">
+            <img src={COVERS[0].src} alt={COVERS[0].alt} />
+            <figcaption>Made for one release</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section className="alt">
+        <div className="wrap">
+          <div className="sec-head">
+            <h2>The work</h2>
+            <p>Built from an artist's idea and references</p>
+          </div>
+          <CoverGrid />
+          <div className="slab">
+            <p className="a">No AI. No templates</p>
+            <p className="b">Every cover is made by hand, <em>for one release only</em></p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div className="wrap">
+          <div className="sec-head"><h2>How it works</h2><p>From payment to the finished files</p></div>
+          <div className="guards">
+            <div className="guard"><span className="g-no">01</span><h3>You pay</h3><p>I reach out right after and open a group chat - you, me and my designer</p></div>
+            <div className="guard"><span className="g-no">02</span><h3>You tell us everything</h3><p>The concept, the mood, the references you love. We keep asking until we see the same picture you do</p></div>
+            <div className="guard"><span className="g-no">03</span><h3>Four days</h3><p>Then the files land in the chat: your cover and the visual for your drop post</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section className="alt">
+        <div className="wrap">
+          <div className="sec-head"><h2>What you get</h2><p>Everything listed before you pay</p></div>
+          <div className="gets">
+            <div className="get"><p><b>Cover art for your release.</b> Built from scratch around your concept and your references</p></div>
+            <div className="get"><p><b>A visual for your drop post.</b> Made for Instagram, ready for release day</p></div>
+            <div className="get"><p><b>Made by hand.</b> No AI anywhere in the process. Personal, detailed work on your cover and nothing else</p></div>
+            <div className="get"><p><b>A direct line to the designer.</b> One chat with all three of us, so nothing gets lost on the way</p></div>
+          </div>
+        </div>
+      </section>
+
+      <CtaBand
+        go={go}
+        title={<>I want a cover<br /><span className="red">made only for&nbsp;me</span></>}
+        label="Ask first"
+        price={SERVICES.cover.price}
+        buyUrl={SERVICES.cover.url}
+        priceNote="4 days"
+        askMessage="Yo Shile, I want to ask about cover art"
+      />
+    </>
+  );
+}
+
 /* ============================================================ CASES */
 
 export function CasesPage({ go, onOpen }: Nav) {
@@ -614,6 +690,13 @@ export function CasesPage({ go, onOpen }: Nav) {
           <div className="works">
             {MIXES.map((m) => <Player key={m.t} item={m} labels={['Before', 'After']} />)}
           </div>
+        </div>
+      </section>
+
+      <section>
+        <div className="wrap">
+          <div className="sec-head"><h2>Cover art cases</h2><p>Made by hand from an artist's idea. No AI</p></div>
+          <CoverGrid lead />
         </div>
       </section>
 

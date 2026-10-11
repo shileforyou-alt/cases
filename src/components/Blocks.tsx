@@ -1,8 +1,8 @@
 import { IG as IG_HREF } from '../lib/dm';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { PremiumDNAHelix, HelixLights } from './PremiumDNAHelix';
-import { TRACKS, CUSTOM, CASES, TRIED } from '../data';
+import { TRACKS, CUSTOM, CASES, TRIED, COVERS } from '../data';
 
 /* ------------------------------------------------------------------ helix */
 
@@ -238,6 +238,81 @@ export function CaseGrid({ onOpen, limit }: { onOpen: (c: any) => void; limit?: 
         </button>
       ))}
     </div>
+  );
+}
+
+/* -------------------------------------------------------------- cover art */
+
+const thumb = (src: string) => src.replace(/\.jpg$/, '-640.jpg');
+const two = (n: number) => String(n).padStart(2, '0');
+
+/* lead - первая обложка идёт крупной плиткой (кейсы). Без него она пропускается:
+   на странице услуги она уже стоит в ширме. */
+export function CoverGrid({ lead = false }: { lead?: boolean }) {
+  const list = lead ? COVERS : COVERS.slice(1);
+  const [at, setAt] = useState<number | null>(null);
+  const opener = useRef<HTMLButtonElement | null>(null);
+  const open = at !== null;
+
+  const step = (d: number) =>
+    setAt((i) => (i === null ? i : (i + d + list.length) % list.length));
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setAt(null);
+      if (e.key === 'ArrowRight') step(1);
+      if (e.key === 'ArrowLeft') step(-1);
+    };
+    document.addEventListener('keydown', onKey);
+    // Фон не должен прокручиваться под открытой обложкой.
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prev;
+      opener.current?.focus();
+    };
+  }, [open]);
+
+  const cur = at === null ? null : list[at];
+
+  return (
+    <>
+      <div className={lead ? 'covers lead' : 'covers'}>
+        {list.map((c, i) => (
+          <button
+            className="cover"
+            type="button"
+            key={c.src}
+            onClick={(e) => { opener.current = e.currentTarget; setAt(i); }}
+          >
+            <img
+              src={thumb(c.src)}
+              srcSet={`${thumb(c.src)} 640w, ${c.src} ${c.w}w`}
+              sizes={lead && i === 0 ? '(min-width:900px) 50vw, 100vw' : '(min-width:900px) 25vw, 50vw'}
+              alt={c.alt}
+              loading="lazy"
+            />
+          </button>
+        ))}
+      </div>
+
+      {cur && (
+        <div className="lightbox" role="dialog" aria-modal="true" aria-label="Cover art" onClick={() => setAt(null)}>
+          <button type="button" className="lb-x" aria-label="Close" autoFocus onClick={() => setAt(null)}>&times;</button>
+          <figure onClick={(e) => e.stopPropagation()}>
+            <img src={cur.src} alt={cur.alt} />
+            <figcaption>
+              <span>{two(at! + 1)} / {two(list.length)}</span>
+              {cur.t && <span>{cur.t}</span>}
+            </figcaption>
+          </figure>
+          <button type="button" className="lb-nav prev" aria-label="Previous cover" onClick={(e) => { e.stopPropagation(); step(-1); }}>←</button>
+          <button type="button" className="lb-nav next" aria-label="Next cover" onClick={(e) => { e.stopPropagation(); step(1); }}>→</button>
+        </div>
+      )}
+    </>
   );
 }
 
