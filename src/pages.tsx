@@ -655,6 +655,24 @@ export function CoverArt({ go }: Nav) {
   );
 }
 
+/* ============================================================ TIKTOK SEEDS */
+
+export function TikTokSeeds({ go }: Nav) {
+  return (
+    <section className="hero first seeds-page">
+      <div className="wrap">
+        <div className="hero-in">
+          <h1>TikTok<em>Seeds</em></h1>
+          <p className="hero-lead">Under development</p>
+          <div className="hero-cta">
+            <Link go={go} to="/" className="btn ghost">Back to home</Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ============================================================ CASES */
 
 export function CasesPage({ go, onOpen }: Nav) {

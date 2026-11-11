@@ -135,7 +135,7 @@ nav{position:sticky;top:0;z-index:40;border-bottom:1px solid var(--line);backgro
 .nav-in{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px var(--pad)}
 .brand{font-family:var(--display);font-weight:700;font-size:1.3rem;letter-spacing:.04em;text-decoration:none}
 .nav-links{display:none;gap:26px}
-@media(min-width:940px){.nav-links{display:flex}}
+@media(min-width:1100px){.nav-links{display:flex}}
 .nav-links a{font-size:var(--fs-label);text-transform:uppercase;letter-spacing:.2em;font-weight:600;color:var(--grey);text-decoration:none;padding-bottom:3px;border-bottom:1px solid transparent;transition:color .2s,border-color .2s}
 .nav-links a:hover{color:var(--ink)}
 .nav-links a.on{color:var(--ink);border-color:var(--red)}
@@ -497,7 +497,7 @@ footer{border-top:1px solid var(--line);padding:32px var(--pad);background:#000}
 .burger i{display:block;height:2px;background:var(--ink);transition:background .2s}
 .burger:hover i{background:var(--red)}
 .burger:focus-visible{outline:2px solid var(--red);outline-offset:6px}
-@media(min-width:940px){.burger{display:none}}
+@media(min-width:1100px){.burger{display:none}}
 
 .navmenu{position:fixed;inset:0;z-index:60;background:#000;display:flex;flex-direction:column;
   padding:12px var(--pad) calc(var(--pad) + 20px);overflow-y:auto;
